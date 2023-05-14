@@ -1,10 +1,23 @@
 import './App.css'
+import { useEffect } from 'react'
+import SignUp from './pages/auth/SignUp'
+import { Route, Routes } from 'react-router-dom'
 
 function App() {
+  useEffect(() => {
+    console.log('hello')
+    const arr = {
+      hello: 'hell',
+      ty: 'ty'
+    }
+    console.log({ arr })
+  }, [])
 
   return (
     <div>
-      <h1>Mentor Me</h1>
+      <Routes>
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
     </div>
   )
 }
