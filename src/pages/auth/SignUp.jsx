@@ -23,9 +23,13 @@ const SignUp = () => {
       firstName: '',
       lastName: '',
       gender: '',
-      age: '',
+      age: 0,
       college: '',
-      interests: []
+      workPlace: '',
+      interests: [],
+      expertise: [],
+      jobTitle: '',
+      experience: 0
     }
 
     // validate: {
@@ -115,27 +119,69 @@ const SignUp = () => {
             <TextInput
               label="Age"
               placeholder="age"
+              type="number"
               {...form.getInputProps('age')}
               size="md"
             />
-            <TextInput
-              label="College/Institution"
-              placeholder="College/Institution"
-              {...form.getInputProps('college')}
-              size="md"
-            />
-            <MultiSelect
-              label="Interests"
-              placeholder="Select your interests"
-              data={[
-                { value: 'frontend', label: 'FrontEnd' },
-                { value: 'backend', label: 'Backend' },
-                { value: 'fullstack', label: 'Full Stack' },
-                { value: 'ba', label: 'Business Analyst' }
-              ]}
-              {...form.getInputProps('interests', { type: 'multiSelect' })}
-              size="md"
-            />
+            {form.values.role === 'mentee' ? (
+              <TextInput
+                label="College/Institution"
+                placeholder="College/Institution"
+                {...form.getInputProps('college')}
+                size="md"
+              />
+            ) : (
+              <TextInput
+                label="WorkPlace"
+                placeholder="WorkPlace"
+                {...form.getInputProps('workPlace')}
+                size="md"
+              />
+            )}
+            {form.values.role === 'mentee' ? (
+              <MultiSelect
+                label="Interests"
+                placeholder="Select your interests"
+                data={[
+                  { value: 'frontend', label: 'FrontEnd' },
+                  { value: 'backend', label: 'Backend' },
+                  { value: 'fullstack', label: 'Full Stack' },
+                  { value: 'ba', label: 'Business Analyst' }
+                ]}
+                {...form.getInputProps('interests', { type: 'multiSelect' })}
+                size="md"
+              />
+            ) : (
+              <MultiSelect
+                label="Expertise"
+                placeholder="Select your expetise"
+                data={[
+                  { value: 'frontend', label: 'FrontEnd' },
+                  { value: 'backend', label: 'Backend' },
+                  { value: 'fullstack', label: 'Full Stack' },
+                  { value: 'ba', label: 'Business Analyst' }
+                ]}
+                {...form.getInputProps('expertise', { type: 'multiSelect' })}
+                size="md"
+              />
+            )}
+            {form.values.role === 'mentor' ? (
+              <TextInput
+                label="Job Title"
+                placeholder="Job Title"
+                {...form.getInputProps('jobTitle')}
+                size="md"
+              />
+            ) : null}
+            {form.values.role === 'mentor' ? (
+              <TextInput
+                label="Experience"
+                placeholder="Experience"
+                type="number"
+                {...form.getInputProps('experience')}
+                size="md"
+              />
+            ) : null}
           </SimpleGrid>
 
           <Button fullWidth mt="xl" size="md" type="submit">
