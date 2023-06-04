@@ -9,10 +9,19 @@ import {
   MultiSelect
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { signUp } from '../../services/Auth'
+import { useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (sessionStorage.getItem('token')) {
+      navigate('/dashboard')
+    }
+  }, [])
+
   const [currentStep, setCurrentStep] = useState(1)
 
   const form = useForm({

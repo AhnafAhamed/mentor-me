@@ -1,8 +1,7 @@
 import { Grid, createStyles } from '@mantine/core'
-import useUserStore from '../../store/userStore'
-import TopBar from '../../components/dashboard/TopBar'
-import SideBar from '../../components/dashboard/SideBar'
-import Main from '../../components/dashboard/Main'
+import TopBar from './dashboard/TopBar'
+import SideBar from './dashboard/SideBar'
+import Main from './dashboard/Main'
 
 const useStyles = createStyles(() => ({
   container: {
@@ -10,8 +9,7 @@ const useStyles = createStyles(() => ({
   }
 }))
 
-const Dashboard = () => {
-  const { user } = useUserStore()
+const Layout = ({ children }) => {
   const { classes } = useStyles()
   return (
     <Grid gutter="xl" grow>
@@ -27,11 +25,11 @@ const Dashboard = () => {
       </Grid.Col>
       <Grid.Col span={8}>
         <div className={classes.container}>
-          <Main />
+          <Main>{children}</Main>
         </div>
       </Grid.Col>
     </Grid>
   )
 }
 
-export default Dashboard
+export default Layout

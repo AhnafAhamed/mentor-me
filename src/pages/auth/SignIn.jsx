@@ -2,8 +2,22 @@ import { useForm } from '@mantine/form'
 import { signIn } from '../../services/Auth'
 import { Button, Card, SimpleGrid, TextInput, Title } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import useUserStore from '../../store/userStore'
+
 const SignIn = () => {
   const navigate = useNavigate()
+
+  const setUser = useUserStore((state) => state.setUser)
+  const { user } = useUserStore()
+
+  useEffect(() => {
+    console.log({ user })
+    if (user) {
+      navigate('/dashboard')
+    }
+  }, [])
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -18,7 +32,9 @@ const SignIn = () => {
     <form
       onSubmit={form.onSubmit(async (values) => {
         const result = await signIn(values)
+        console.log({ result })
         if (result) {
+          setUser(result.user)
           navigate('/dashboard')
         }
       })}

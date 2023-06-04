@@ -10,7 +10,7 @@ export const signUp = async (formData) => {
       }
     }
   })
-  console.log({ data })
+  console.log({ data, formData })
   if (data && formData.role === 'mentee') {
     const { menteeData } = await supabase
       .from('Mentee')
@@ -33,8 +33,9 @@ export const signUp = async (formData) => {
         user_uid: data.user.id,
         first_name: formData.firstName,
         last_name: formData.lastName,
+        age: formData.age,
         gender: formData.gender,
-        workplace: formData.workplace,
+        workplace: formData.workPlace,
         expertise: formData.expertise,
         job_title: formData.jobTitle,
         experience: formData.experience
@@ -50,9 +51,9 @@ export const signIn = async (formData) => {
     password: formData.password
   })
 
-  if (data) {
-    sessionStorage.setItem('token', JSON.stringify(data))
-  }
+  // if (data) {
+  //   sessionStorage.setItem('token', JSON.stringify(data))
+  // }
 
   return data ? data : error
 }
