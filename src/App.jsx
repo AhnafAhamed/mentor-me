@@ -4,7 +4,7 @@ import SignUp from './pages/auth/SignUp'
 import { Route, Routes } from 'react-router-dom'
 import SignIn from './pages/auth/SignIn'
 import PrivatRoute from './navigation/PrivateRoute'
-import Home from './pages/home/home'
+import Main from './pages/home/Main'
 
 function App() {
   useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
           path="/"
           element={
             <PrivatRoute>
-              <Home />
+              <Main />
             </PrivatRoute>
           }
         />
