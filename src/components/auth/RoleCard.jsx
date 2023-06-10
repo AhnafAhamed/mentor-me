@@ -4,7 +4,11 @@ import IconArrowRight from '../icons/IconArrowRight'
 const useStyles = createStyles((theme) => ({
   wrapper: {
     border: `1px solid ${theme.colors.accentGray}`,
-    borderRadius: '16px'
+    borderRadius: '16px',
+    cursor: 'pointer',
+    '&:hover': {
+      border: `1px solid ${theme.colors.darkBlack}`
+    }
   }
 }))
 

@@ -7,7 +7,7 @@ const Logo = ({ iconSize, textSize, textColor, textWeight }) => {
     console.log({ theme })
   }, [])
   return (
-    <Flex align="center">
+    <Flex align="center" gap={14}>
       <svg
         width={iconSize}
         height={iconSize}

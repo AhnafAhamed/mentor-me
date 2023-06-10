@@ -8,7 +8,7 @@ const AuthLayout = ({ image, children }) => {
       <Image src={image} height="100vh" />
       <Stack mt={40}>
         <Logo
-          iconSize={32}
+          iconSize={48}
           textSize="2xl"
           textColor={theme.colors.darkBlack}
           textWeight={600}
