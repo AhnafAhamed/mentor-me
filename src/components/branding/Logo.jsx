@@ -1,7 +1,7 @@
 import { Flex, Text, useMantineTheme } from '@mantine/core'
 import { useEffect } from 'react'
 
-const Logo = ({ iconSize, textSize, textColor, textWeight }) => {
+const Logo = ({ iconSize, textSize, textColor, textWeight, showText }) => {
   const theme = useMantineTheme()
   useEffect(() => {
     console.log({ theme })
@@ -39,9 +39,11 @@ const Logo = ({ iconSize, textSize, textColor, textWeight }) => {
           strokeLinejoin="round"
         />
       </svg>
-      <Text size={textSize} weight={textWeight} color={textColor}>
-        Mentor Me
-      </Text>
+      {showText ? (
+        <Text size={textSize} weight={textWeight} color={textColor}>
+          Mentor Me
+        </Text>
+      ) : null}
     </Flex>
   )
 }

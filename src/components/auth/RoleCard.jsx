@@ -12,10 +12,16 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-const RoleCard = ({ icon, title, description }) => {
+const RoleCard = ({ icon, title, description, clickEvent }) => {
   const { classes } = useStyles()
   return (
-    <Stack maw={400} p={24} spacing={12} className={classes.wrapper}>
+    <Stack
+      maw={400}
+      p={24}
+      spacing={12}
+      className={classes.wrapper}
+      onClick={clickEvent}
+    >
       <Flex align="center" justify="space-between">
         <Group>
           <Image src={icon} width={24} />

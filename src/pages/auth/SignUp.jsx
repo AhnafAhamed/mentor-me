@@ -2,6 +2,7 @@ import AuthLayout from '../../components/layouts/AuthLayout'
 import CoverImage from '../../assets/images/auth-cover.jpg'
 import {
   Flex,
+  Modal,
   Stack,
   Text,
   Title,
@@ -12,6 +13,11 @@ import RoleCard from '../../components/auth/RoleCard'
 import IconGraduateCap from '../../assets/images/graduate-cap.png'
 import IconQualification from '../../assets/images/qualification.png'
 import { Link } from 'react-router-dom'
+import { useDisclosure } from '@mantine/hooks'
+import Popup from '../../components/global/Popup'
+import CustomInput from '../../components/global/CustomInput'
+import UserRegistrationPopup from '../../components/auth/UserRegistrationPopup'
+import { useState } from 'react'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -22,9 +28,15 @@ const useStyles = createStyles((theme) => ({
 const SignUp = () => {
   const theme = useMantineTheme()
   const { classes } = useStyles()
+  const [opened, { open, close }] = useDisclosure(false)
+  const [role, setRole] = useState(null)
   console.log({ theme })
+  const roleCardClick = (role) => {
+    setRole(role)
+    open()
+  }
   return (
-    <div>
+    <>
       <AuthLayout image={CoverImage}>
         <Stack spacing={0} mt={120} className={classes.wrapper}>
           <Stack spacing={12} mb={40}>
@@ -37,11 +49,13 @@ const SignUp = () => {
               title="Mentee"
               description="Build you tech career"
               icon={IconGraduateCap}
+              clickEvent={() => roleCardClick('mentee')}
             />
             <RoleCard
               title="Mentor"
               description="Make money doing what you love"
               icon={IconQualification}
+              clickEvent={() => roleCardClick('mentor')}
             />
           </Stack>
 
@@ -55,7 +69,14 @@ const SignUp = () => {
           </Flex>
         </Stack>
       </AuthLayout>
-    </div>
+
+      <UserRegistrationPopup
+        showLogo
+        title={`Create your ${role} account`}
+        isOpen={opened}
+        isClosed={close}
+      ></UserRegistrationPopup>
+    </>
   )
 }
 
