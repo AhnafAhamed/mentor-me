@@ -6,14 +6,7 @@ import SignIn from './pages/auth/SignIn'
 import PrivatRoute from './navigation/PrivateRoute'
 
 function App() {
-  useEffect(() => {
-    console.log('hello')
-    const arr = {
-      hello: 'hell',
-      ty: 'ty'
-    }
-    console.log({ arr })
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <div>
@@ -24,7 +17,9 @@ function App() {
           path="/"
           element={
             <PrivatRoute>
-              <div></div>
+              <div>
+                <h1>This is Private! Bitch</h1>
+              </div>
             </PrivatRoute>
           }
         />
