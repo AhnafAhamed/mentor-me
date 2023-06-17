@@ -12,8 +12,9 @@ const useStyles = createStyles((theme) => ({
     borderRadius: '12px',
     lineHeight: 1,
     height: 'unset',
+    border: `1px solid ${theme.colors.accentGray[0]}`,
     '&:focus': {
-      border: `1px solid ${theme.colors.darkBlack}`
+      border: `1px solid ${theme.colors.darkBlack[0]}`
     }
   },
   error: {

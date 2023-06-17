@@ -43,6 +43,8 @@ export const signUp = async (formData) => {
       .select()
     if (mentorData) console.log({ mentorData })
   }
+
+  return data ? data : error
 }
 
 export const signIn = async (formData) => {

@@ -1,11 +1,6 @@
-import { Flex, Text, useMantineTheme } from '@mantine/core'
-import { useEffect } from 'react'
+import { Flex, Text } from '@mantine/core'
 
 const Logo = ({ iconSize, textSize, textColor, textWeight, showText }) => {
-  const theme = useMantineTheme()
-  useEffect(() => {
-    console.log({ theme })
-  }, [])
   return (
     <Flex align="center" gap={14}>
       <svg

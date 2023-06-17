@@ -35,6 +35,12 @@ const SignUp = () => {
     setRole(role)
     open()
   }
+
+  const handleStatus = (status) => {
+    console.log({ status })
+    if (status) {
+    }
+  }
   return (
     <>
       <AuthLayout image={CoverImage}>
@@ -75,6 +81,7 @@ const SignUp = () => {
         title={`Create your ${role} account`}
         isOpen={opened}
         isClosed={close}
+        role={role}
       ></UserRegistrationPopup>
     </>
   )

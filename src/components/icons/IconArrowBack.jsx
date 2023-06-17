@@ -9,7 +9,7 @@ const IconArrowBack = () => {
     >
       <path
         d="M15.0898 4.07992L8.56984 10.5999C7.79984 11.3699 7.79984 12.6299 8.56984 13.3999L15.0898 19.9199"
-        stroke="#513DFF"
+        stroke="#444444"
         strokeWidth="1.5"
         strokeMiterlimit="10"
         strokeLinecap="round"

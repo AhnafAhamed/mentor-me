@@ -1,4 +1,4 @@
-import { Modal, Title, createStyles } from '@mantine/core'
+import { Box, Modal, Title, createStyles } from '@mantine/core'
 import Logo from '../branding/Logo'
 import IconArrowBack from '../icons/IconArrowBack'
 
@@ -8,6 +8,9 @@ const useStyles = createStyles((theme) => ({
   },
   body: {
     padding: '0px 24px 32px 24px'
+  },
+  hoverEffect: {
+    cursor: 'pointer'
   }
 }))
 
@@ -17,24 +20,32 @@ const Popup = ({
   showBackButton,
   isOpen,
   isClosed,
+  backClick,
   children
 }) => {
   const { classes } = useStyles()
+  const clik = () => {
+    console.log('clik')
+  }
   return (
     <>
-      <Modal.Root opened={isOpen} onClose={isClosed} centered>
+      <Modal.Root opened={isOpen} onClose={isClosed} size="lg" centered>
         <Modal.Overlay />
         <Modal.Content>
           <Modal.Header className={classes.header}>
             <Modal.Title>
               {showLogo ? <Logo showText={false} iconSize={48} /> : null}
-              {showBackButton ? <IconArrowBack /> : null}
+              {showBackButton ? (
+                <Box className={classes.hoverEffect} onClick={backClick}>
+                  <IconArrowBack />
+                </Box>
+              ) : null}
             </Modal.Title>
             <Modal.CloseButton />
           </Modal.Header>
 
           <Modal.Body className={classes.body}>
-            <Title size="lg" ta="center">
+            <Title order={4} ta="center" mb={24}>
               {title}
             </Title>
             {children}
