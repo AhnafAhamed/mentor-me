@@ -1,5 +1,4 @@
 import { Button, createStyles, useMantineTheme } from '@mantine/core'
-import { useEffect } from 'react'
 
 const useStyles = createStyles((theme) => ({
   root: {

@@ -8,7 +8,8 @@ const THEME = {
     gray: ['#727272'],
     darkGray: ['#444444'],
     accentGray: ['#DDDDDD'],
-    purple: ['#513DFF']
+    purple: ['#513DFF'],
+    lightPurple: ['#EFEEFF']
   },
 
   shadows: {
@@ -44,6 +45,17 @@ const THEME = {
     '3xl': '36px'
   },
   components: {
+    Container: {
+      defaultProps: {
+        sizes: {
+          xs: 540,
+          sm: 720,
+          md: 960,
+          lg: 1140,
+          xl: 1320
+        }
+      }
+    },
     MultiSelect: {
       styles: (theme, params) => ({
         input: {
@@ -117,7 +129,7 @@ const THEME = {
       boxSizing: 'border-box'
     },
     body: {
-      'font-family': theme.fontFamily
+      fontFamily: theme.fontFamily
     },
     a: {
       color: 'unset'

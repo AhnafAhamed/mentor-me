@@ -4,6 +4,10 @@ import SignUp from './pages/auth/SignUp'
 import { Route, Routes } from 'react-router-dom'
 import SignIn from './pages/auth/SignIn'
 import PrivatRoute from './navigation/PrivateRoute'
+import Home from './pages/home/Home'
+import Messages from './pages/messages/Messages'
+import Resources from './pages/resources/Resources'
+import Settings from './pages/settings/Settings'
 
 function App() {
   useEffect(() => {}, [])
@@ -17,9 +21,31 @@ function App() {
           path="/"
           element={
             <PrivatRoute>
-              <div>
-                <h1>This is Private! Bitch</h1>
-              </div>
+              <Home />
+            </PrivatRoute>
+          }
+        />
+        <Route
+          path="/messages"
+          element={
+            <PrivatRoute>
+              <Messages />
+            </PrivatRoute>
+          }
+        />
+        <Route
+          path="/resources"
+          element={
+            <PrivatRoute>
+              <Resources />
+            </PrivatRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PrivatRoute>
+              <Settings />
             </PrivatRoute>
           }
         />
