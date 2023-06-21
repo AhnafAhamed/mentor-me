@@ -10,6 +10,7 @@ import {
 import IconBriefCase from '../icons/IconBriefCase'
 import IconStarFilled from '../icons/IconStarFilled'
 import PrimaryButton from './PrimaryButton'
+import PlaceHolderImage from '../../assets/images/profile-1.jpg'
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -41,7 +42,7 @@ const ProfileCard = ({
   const { classes } = useStyles()
   return (
     <Box className={classes.card}>
-      <Image src={image} radius={16} height={300} />
+      <Image src={image ? image : PlaceHolderImage} radius={16} height={300} />
       <Overlay radius={16} className={classes.overlay}>
         <Stack spacing={0} className={classes.content}>
           <Text size="lg" weight={500} mb={8}>

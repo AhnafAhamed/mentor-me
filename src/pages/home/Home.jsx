@@ -2,7 +2,6 @@ import { Flex, TextInput } from '@mantine/core'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import IconSearch from '../../components/icons/IconSearch'
 import ProfileCard from '../../components/global/ProfileCard'
-import ProfileOne from '../../assets/images/profile-1.jpg'
 
 const Home = () => {
   return (
@@ -19,7 +18,13 @@ const Home = () => {
           jobTitle="Product Manager"
           rating="4.5"
           company="Google"
-          image={ProfileOne}
+        />
+        <ProfileCard
+          name="Shaun Park"
+          experience="2"
+          jobTitle="Devops Engineer"
+          rating="4.2"
+          company="MacroActive"
         />
       </Flex>
     </DashboardLayout>

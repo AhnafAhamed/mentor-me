@@ -87,7 +87,7 @@ const SigIn = () => {
             </Link>
             <Flex gap={4}>
               <Text>Don't have an account?</Text>
-              <Link to="/sign-in">
+              <Link to="/sign-up">
                 <Text weight={600} td="underline">
                   Create Account
                 </Text>
