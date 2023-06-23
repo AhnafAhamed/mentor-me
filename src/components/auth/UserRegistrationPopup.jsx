@@ -128,7 +128,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
               <TextInput
                 label="Age"
                 placeholder="Age"
-                type="text"
+                type="number"
                 {...form.getInputProps('age')}
               />
               <Select
