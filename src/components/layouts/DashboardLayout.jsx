@@ -1,6 +1,4 @@
 import {
-  Container,
-  Flex,
   Grid,
   Stack,
   Title,
@@ -13,7 +11,6 @@ import NavItem from '../dashboard/NavItem'
 import IconHome from '../icons/IconHome'
 import IconMessage from '../icons/IconMessage'
 import IconResource from '../icons/IconResource'
-import IconSettings from '../icons/IconSettings'
 import ProfileInfoCard from '../dashboard/ProfileInfoCard'
 import useUserStore from '../../store/userStore'
 import { useEffect } from 'react'
@@ -26,7 +23,6 @@ const useStyles = createStyles((theme) => ({
   },
   sideBar: {
     borderRight: `1px solid ${theme.colors.lightPurple[0]}`
-    // maxWidth: '220px'
   }
 }))
 
@@ -34,8 +30,6 @@ const DashboardLayout = ({ title, children }) => {
   const theme = useMantineTheme()
   const { user } = useUserStore()
   const { classes } = useStyles()
-
-  //function to get user data
 
   useEffect(() => {
     console.log({ user })
