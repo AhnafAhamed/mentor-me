@@ -1,4 +1,4 @@
-import { Container } from '@mantine/core'
+import { Container, ScrollArea } from '@mantine/core'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import { StreamChat } from 'stream-chat'
 import {
@@ -16,7 +16,8 @@ import 'stream-chat-react/dist/css/v2/index.css'
 const user = {
   id: 'ahnaf',
   name: 'Ahnaf Ahamed',
-  image: 'https://getstream.io/random_png/?id=1&name=John+Doe'
+  image:
+    'https://images.pexels.com/photos/343717/pexels-photo-343717.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
 }
 
 const chatClient = new StreamChat('yzhtdeyzj2x6')
@@ -33,7 +34,7 @@ const channel = chatClient.channel('messaging', 'nlaf-chat', {
 const Messages = () => {
   return (
     <DashboardLayout title="Messages" className="hello">
-      <Container h="50%">
+      <Container h={800}>
         <Chat client={chatClient} theme="str-chat__theme-light">
           <Channel channel={channel}>
             <Window>

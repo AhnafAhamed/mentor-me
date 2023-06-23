@@ -17,7 +17,8 @@ import IconSettings from '../icons/IconSettings'
 import ProfileInfoCard from '../dashboard/ProfileInfoCard'
 import useUserStore from '../../store/userStore'
 import { useEffect } from 'react'
-import { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/SupabaseAuthClient'
+import IconBooking from '../icons/IconBooking'
+import IconMentor from '../icons/IconMentor'
 
 const useStyles = createStyles((theme) => ({
   grid: {
@@ -46,6 +47,16 @@ const DashboardLayout = ({ title, children }) => {
       text: 'Home'
     },
     {
+      link: '/bookings',
+      icon: <IconBooking />,
+      text: 'Bookings'
+    },
+    {
+      link: '/mentors',
+      icon: <IconMentor />,
+      text: 'Bookings'
+    },
+    {
       link: '/messages',
       icon: <IconMessage />,
       text: 'Messages'
@@ -54,11 +65,6 @@ const DashboardLayout = ({ title, children }) => {
       link: '/resources',
       icon: <IconResource />,
       text: 'Resources'
-    },
-    {
-      link: '/settings',
-      icon: <IconSettings />,
-      text: 'Settings'
     }
   ]
   return (

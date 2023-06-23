@@ -12,7 +12,7 @@ import {
   useMantineTheme
 } from '@mantine/core'
 import PrimaryButton from '../global/PrimaryButton'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { signUp } from '../../services/Auth'
 
 const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
@@ -38,6 +38,8 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
     //   email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     // },
   })
+
+  form.values.role = role
 
   const [currentStep, setCurrentStep] = useState(1)
   const [status, setStatus] = useState(false)
