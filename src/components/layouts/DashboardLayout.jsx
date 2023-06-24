@@ -1,5 +1,6 @@
 import {
   Grid,
+  ScrollArea,
   Stack,
   Title,
   createStyles,
@@ -31,9 +32,6 @@ const DashboardLayout = ({ title, children }) => {
   const { user } = useUserStore()
   const { classes } = useStyles()
 
-  useEffect(() => {
-    console.log({ user })
-  }, [])
   const navItems = [
     {
       link: '/',
@@ -48,7 +46,7 @@ const DashboardLayout = ({ title, children }) => {
     {
       link: '/mentors',
       icon: <IconMentor />,
-      text: 'Bookings'
+      text: 'Mentors'
     },
     {
       link: '/messages',
@@ -88,16 +86,19 @@ const DashboardLayout = ({ title, children }) => {
           </Stack>
 
           <ProfileInfoCard
-            name="Ahnaf Ahamed"
-            firstName="Ahnaf"
-            lastName="Ahamed"
+            firstName={user?.first_name}
+            lastName={user?.last_name}
           />
         </Stack>
       </Grid.Col>
-      <Grid.Col span={8} pt={48} px={48}>
+      <Grid.Col span={8} pt={48} px={48} h="100%">
         {/* <Container size="xl" > */}
-        <Title mb={48}>{title}</Title>
-        {children}
+
+        <ScrollArea type="auto" h="100%">
+          <Title mb={48}>{title}</Title>
+          {children}
+        </ScrollArea>
+
         {/* </Container> */}
       </Grid.Col>
     </Grid>

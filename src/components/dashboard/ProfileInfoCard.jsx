@@ -1,12 +1,15 @@
 import { Avatar, Flex, Stack, Text, useMantineTheme } from '@mantine/core'
+import { Link } from 'react-router-dom'
 
-const ProfileInfoCard = ({ name, firstName, lastName, image }) => {
+const ProfileInfoCard = ({ firstName, lastName, image }) => {
   const theme = useMantineTheme()
+
   const getInitials = (firstName, lastName) => {
     const firstInitial = firstName ? firstName.charAt(0) : ''
     const lastInitial = lastName ? lastName.charAt(0) : ''
     return `${firstInitial}${lastInitial}`
   }
+
   return (
     <Flex align="center" gap={10}>
       <Avatar
@@ -19,11 +22,13 @@ const ProfileInfoCard = ({ name, firstName, lastName, image }) => {
       </Avatar>
       <Stack spacing={0}>
         <Text size="md" weight={700}>
-          {name}
+          {firstName + ' ' + lastName}
         </Text>
-        <Text size="xs" color={theme.colors.purple[0]} weight={700}>
-          View Profile
-        </Text>
+        <Link to="/profile">
+          <Text size="xs" color={theme.colors.purple[0]} weight={700}>
+            View Profile
+          </Text>
+        </Link>
       </Stack>
     </Flex>
   )

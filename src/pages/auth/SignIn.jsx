@@ -15,6 +15,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { signIn } from '../../services/Auth'
 import useUserStore from '../../store/userStore'
 import { useEffect } from 'react'
+import { getMentees } from '../../services/Mentee'
+import { getMentors } from '../../services/Mentor'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -42,7 +44,17 @@ const SigIn = () => {
     e.preventDefault()
     const result = await signIn(form.values)
     if (result.user) {
-      setUser(result.user)
+      let userData = null
+      if (result.user.user_metadata.role === 'mentee') {
+        const data = await getMentees()
+        console.log({ data })
+        userData = data?.find((mentee) => mentee.user_uid === result.user.id)
+      } else if (user.user_metadata.role === 'mentor') {
+        const data = await getMentors()
+        userData = data?.find((mentor) => mentor.user_uid === result.user.id)
+      }
+      //set user data with result.user.user_metadata.role
+      setUser({ ...result.user, ...userData })
       navigate('/')
     }
   }

@@ -8,6 +8,7 @@ import Home from './pages/home/Home'
 import Messages from './pages/messages/Messages'
 import Resources from './pages/resources/Resources'
 import Settings from './pages/settings/Settings'
+import Profile from './pages/profile/Profile'
 
 function App() {
   useEffect(() => {}, [])
@@ -46,6 +47,14 @@ function App() {
           element={
             <PrivatRoute>
               <Settings />
+            </PrivatRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivatRoute>
+              <Profile />
             </PrivatRoute>
           }
         />

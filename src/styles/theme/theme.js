@@ -122,6 +122,27 @@ const THEME = {
           marginBottom: '8px'
         }
       })
+    },
+    Tabs: {
+      styles: (theme, params) => ({
+        tab: {
+          minWidth: '250px',
+          borderBottom: `4px solid ${theme.colors.lightPurple[0]}`,
+          fontSize: '16px',
+          '&:hover': {
+            backgroundColor: 'unset',
+            borderColor: theme.colors.lightPurple[0]
+          },
+          //apply styles for active tab
+          '&[aria-selected=true]': {
+            borderColor: theme.colors.purple[0],
+            fontWeight: 600
+          },
+          '&[aria-selected=true]:hover': {
+            borderColor: theme.colors.purple[0]
+          }
+        }
+      })
     }
   },
   globalStyles: (theme) => ({
