@@ -17,6 +17,7 @@ import useUserStore from '../../store/userStore'
 import { useEffect } from 'react'
 import IconBooking from '../icons/IconBooking'
 import IconMentor from '../icons/IconMentor'
+import IconStats from '../icons/IconStats'
 
 const useStyles = createStyles((theme) => ({
   grid: {
