@@ -43,11 +43,17 @@ const DashboardLayout = ({ title, children }) => {
       icon: <IconBooking />,
       text: 'Bookings'
     },
-    {
-      link: '/mentors',
-      icon: <IconMentor />,
-      text: 'Mentors'
-    },
+    user?.user_metadata.role === 'mentee'
+      ? {
+          link: '/mentors',
+          icon: <IconMentor />,
+          text: 'Mentors'
+        }
+      : {
+          link: '/stats',
+          icon: <IconStats />,
+          text: 'Stats'
+        },
     {
       link: '/messages',
       icon: <IconMessage />,
