@@ -11,6 +11,7 @@ import Settings from './pages/settings/Settings'
 import Profile from './pages/profile/Profile'
 import useUserStore from './store/userStore'
 import HomeMentor from './pages/home/HomeMentor'
+import LogOut from './pages/auth/Logout'
 
 function App() {
   const { user } = useUserStore()
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/logout" element={<LogOut />} />
         <Route
           path="/"
           element={
