@@ -5,7 +5,7 @@ import ProfileCard from '../../components/global/ProfileCard'
 import supabase from '../../config/SupabaseClient'
 import { useEffect, useState } from 'react'
 
-const Home = () => {
+const HomeMentee = () => {
   const [mentors, setMentors] = useState([])
   const fetchMentors = async () => {
     const { data, error } = await supabase.from('Mentor').select()
@@ -44,4 +44,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default HomeMentee

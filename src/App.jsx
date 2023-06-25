@@ -4,14 +4,16 @@ import SignUp from './pages/auth/SignUp'
 import { Route, Routes } from 'react-router-dom'
 import SignIn from './pages/auth/SignIn'
 import PrivatRoute from './navigation/PrivateRoute'
-import Home from './pages/home/Home'
+import HomeMentee from './pages/home/HomeMentee'
 import Messages from './pages/messages/Messages'
 import Resources from './pages/resources/Resources'
 import Settings from './pages/settings/Settings'
 import Profile from './pages/profile/Profile'
+import useUserStore from './store/userStore'
+import HomeMentor from './pages/home/HomeMentor'
 
 function App() {
-  useEffect(() => {}, [])
+  const { user } = useUserStore()
 
   return (
     <div>
@@ -22,7 +24,11 @@ function App() {
           path="/"
           element={
             <PrivatRoute>
-              <Home />
+              {user?.user_metadata.role === 'mentee' ? (
+                <HomeMentee />
+              ) : (
+                <HomeMentor />
+              )}
             </PrivatRoute>
           }
         />
