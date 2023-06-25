@@ -45,11 +45,12 @@ const SigIn = () => {
     const result = await signIn(form.values)
     if (result.user) {
       let userData = null
+      console.log({ result })
       if (result.user.user_metadata.role === 'mentee') {
         const data = await getMentees()
         console.log({ data })
         userData = data?.find((mentee) => mentee.user_uid === result.user.id)
-      } else if (user.user_metadata.role === 'mentor') {
+      } else if (result.user.user_metadata.role === 'mentor') {
         const data = await getMentors()
         userData = data?.find((mentor) => mentor.user_uid === result.user.id)
       }
