@@ -98,7 +98,7 @@ const DashboardLayout = ({ title, children }) => {
           />
         </Stack>
       </Grid.Col>
-      <Grid.Col span={8} pt={48} px={48} h="100%">
+      <Grid.Col span={10} pt={48} px={48} h="100%">
         {/* <Container size="xl" > */}
 
         <ScrollArea type="auto" h="100%">
