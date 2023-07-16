@@ -12,6 +12,8 @@ import Profile from './pages/profile/Profile'
 import useUserStore from './store/userStore'
 import HomeMentor from './pages/home/HomeMentor'
 import LogOut from './pages/auth/Logout'
+import BookingsMentee from './pages/bookings/BookingsMentee'
+import BookingsMentor from './pages/bookings/BookingsMentor.jsx'
 
 function App() {
   const { user } = useUserStore()
@@ -51,10 +53,14 @@ function App() {
           }
         />
         <Route
-          path="/settings"
+          path="/bookings"
           element={
             <PrivatRoute>
-              <Settings />
+              {user?.user_metadata.role === 'mentee' ? (
+                <BookingsMentee />
+              ) : (
+                <BookingsMentor />
+              )}
             </PrivatRoute>
           }
         />
