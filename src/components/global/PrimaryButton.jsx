@@ -17,7 +17,7 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-const PrimaryButton = ({ text, loading, disabled, type }) => {
+const PrimaryButton = ({ text, loading, disabled, type, onClick }) => {
   const theme = useMantineTheme()
   const { classes } = useStyles()
 
@@ -31,6 +31,7 @@ const PrimaryButton = ({ text, loading, disabled, type }) => {
       loading={loading}
       disabled={disabled}
       type={type}
+      onClick={onClick}
     >
       {text}
     </Button>
