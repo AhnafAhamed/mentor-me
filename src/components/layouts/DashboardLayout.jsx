@@ -67,7 +67,7 @@ const DashboardLayout = ({ title, children }) => {
     }
   ]
   return (
-    <Grid grow m={0} h="100vh">
+    <Grid m={0} h="100vh">
       <Grid.Col span={2} py={48} pl={32} pr={20} className={classes.sideBar}>
         <Stack justify="space-between" align="center" h="100%">
           <Logo
@@ -98,7 +98,7 @@ const DashboardLayout = ({ title, children }) => {
           />
         </Stack>
       </Grid.Col>
-      <Grid.Col span={10} pt={48} px={48} h="100%">
+      <Grid.Col span="auto" pt={48} px={48} h="100%">
         {/* <Container size="xl" > */}
 
         <ScrollArea type="auto" h="100%">
