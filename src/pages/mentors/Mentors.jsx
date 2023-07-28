@@ -1,11 +1,11 @@
-import { Flex, TextInput } from '@mantine/core'
-import DashboardLayout from '../../components/layouts/DashboardLayout'
-import IconSearch from '../../components/icons/IconSearch'
-import ProfileCard from '../../components/global/ProfileCard'
-import supabase from '../../config/SupabaseClient'
 import { useEffect, useState } from 'react'
+import DashboardLayout from '../../components/layouts/DashboardLayout'
+import supabase from '../../config/SupabaseClient'
+import { Flex, TextInput } from '@mantine/core'
+import ProfileCard from '../../components/global/ProfileCard'
+import IconSearch from '../../components/icons/IconSearch'
 
-const HomeMentee = () => {
+const Mentors = () => {
   const [mentors, setMentors] = useState([])
   const fetchMentors = async () => {
     const { data, error } = await supabase.from('Mentor').select()
@@ -21,7 +21,7 @@ const HomeMentee = () => {
     fetchMentors()
   }, [])
   return (
-    <DashboardLayout title="Home">
+    <DashboardLayout title="Mentors">
       <TextInput
         placeholder="Search for Mentors"
         icon={<IconSearch />}
@@ -45,4 +45,4 @@ const HomeMentee = () => {
   )
 }
 
-export default HomeMentee
+export default Mentors

@@ -14,6 +14,8 @@ import HomeMentor from './pages/home/HomeMentor'
 import LogOut from './pages/auth/Logout'
 import BookingsMentee from './pages/bookings/BookingsMentee'
 import BookingsMentor from './pages/bookings/BookingsMentor.jsx'
+import Mentors from './pages/mentors/Mentors'
+import MentorProfile from './pages/mentors/MentorProfile'
 
 function App() {
   const { user } = useUserStore()
@@ -65,10 +67,26 @@ function App() {
           }
         />
         <Route
+          path="/mentors"
+          element={
+            <PrivatRoute>
+              <Mentors />
+            </PrivatRoute>
+          }
+        />
+        <Route
           path="/profile"
           element={
             <PrivatRoute>
               <Profile />
+            </PrivatRoute>
+          }
+        />
+        <Route
+          path="mentors/:userId"
+          element={
+            <PrivatRoute>
+              <MentorProfile />
             </PrivatRoute>
           }
         />

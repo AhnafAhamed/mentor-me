@@ -11,6 +11,7 @@ import IconBriefCase from '../icons/IconBriefCase'
 import IconStarFilled from '../icons/IconStarFilled'
 import PrimaryButton from './PrimaryButton'
 import PlaceHolderImage from '../../assets/images/profile-1.jpg'
+import { Link } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -37,9 +38,14 @@ const ProfileCard = ({
   experience,
   rating,
   image,
-  company
+  company,
+  id
 }) => {
   const { classes } = useStyles()
+
+  const viewProfile = () => {
+    console.log('View Profile')
+  }
   return (
     <Box className={classes.card}>
       <Image src={image ? image : PlaceHolderImage} radius={16} height={300} />
@@ -64,8 +70,9 @@ const ProfileCard = ({
               </Flex>
             </Flex>
           </Stack>
-
-          <PrimaryButton text="Book" />
+          <Link to={`mentors/${id}`}>
+            <PrimaryButton text="View Profile" onClick={viewProfile} />
+          </Link>
         </Stack>
       </Overlay>
     </Box>
