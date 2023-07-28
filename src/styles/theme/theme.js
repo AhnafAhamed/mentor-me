@@ -9,7 +9,8 @@ const THEME = {
     darkGray: ['#444444'],
     accentGray: ['#DDDDDD'],
     purple: ['#513DFF'],
-    lightPurple: ['#EFEEFF']
+    lightPurple: ['#EFEEFF'],
+    darkPurple: '#4A148C'
   },
 
   shadows: {
@@ -141,6 +142,13 @@ const THEME = {
           '&[aria-selected=true]:hover': {
             borderColor: theme.colors.purple[0]
           }
+        }
+      })
+    },
+    Checkbox: {
+      styles: (theme) => ({
+        input: {
+          border: '1px solid gray'
         }
       })
     }
