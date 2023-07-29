@@ -70,7 +70,8 @@ const BookingsMentee = () => {
         </Tabs.List>
 
         <Tabs.Panel value="first">
-          {meetingCards ? meetingCards : <Text>No pending bookings</Text>}
+          {meetingCards ? meetingCards : <Text>Loading...</Text>}
+          {meetingCards?.length === 0 && <Text>No pending bookings</Text>}
         </Tabs.Panel>
 
         <Tabs.Panel value="second">
