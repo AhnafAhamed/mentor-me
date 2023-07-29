@@ -1,6 +1,6 @@
 import { Flex, Stack, Avatar, useMantineTheme, Text } from '@mantine/core'
 
-const UserInfoCard = ({ image, firstName, lastName, college }) => {
+const UserInfoCard = ({ image, firstName, lastName, title }) => {
   const theme = useMantineTheme()
 
   const getInitials = (firstName, lastName) => {
@@ -14,6 +14,7 @@ const UserInfoCard = ({ image, firstName, lastName, college }) => {
         src={image ? image : null}
         size={32}
         radius="xl"
+        mr={12}
         color={theme.colors.purple[0]}
       >
         {!image ? getInitials(firstName, lastName) : ''}
@@ -23,7 +24,7 @@ const UserInfoCard = ({ image, firstName, lastName, college }) => {
           {firstName + ' ' + lastName}
         </Text>
         <Text size="xs" color={theme.colors.gray[0]}>
-          Student at {college}
+          {title}
         </Text>
       </Stack>
     </Flex>
