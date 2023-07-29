@@ -74,7 +74,7 @@ const BookingsMentee = () => {
         </Tabs.Panel>
 
         <Tabs.Panel value="second">
-          <Text>Reviews</Text>
+          <Text>No Confirmed Bookings</Text>
         </Tabs.Panel>
       </Tabs>
     </DashboardLayout>
