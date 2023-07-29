@@ -15,6 +15,8 @@ import {
 import PrimaryButton from '../../components/global/PrimaryButton'
 import Popup from '../../components/global/Popup'
 import { useDisclosure } from '@mantine/hooks'
+import { DateTimePicker } from '@mantine/dates'
+import useUserStore from '../../store/userStore'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -41,6 +43,8 @@ const MentorProfile = () => {
   const { classes } = useStyles()
   const [mentor, setMentor] = useState(null)
   const [opened, { open, close }] = useDisclosure(false)
+  const [date, setDate] = useState(null)
+  const { user } = useUserStore()
 
   const getMentor = async () => {
     const { data, error } = await supabase
@@ -50,6 +54,28 @@ const MentorProfile = () => {
     setMentor(data[0])
     console.log(data)
   }
+
+  const confirmBooking = async () => {
+    const { data } = await supabase
+      .from('bookings')
+      .insert({
+        meeting_time: date,
+        booked_mentor: mentor.user_uid,
+        booked_by: user.user_uid,
+        confirmation_status: 'pending',
+        payment_status: 'unpaid'
+      })
+      .select()
+
+    if (data) {
+      close()
+      console.log({ data })
+    }
+  }
+
+  useEffect(() => {
+    console.log({ date })
+  }, [date])
 
   useEffect(() => {
     getMentor()
@@ -96,7 +122,19 @@ const MentorProfile = () => {
         isOpen={opened}
         isClosed={close}
       >
-        <h1>hello</h1>
+        <Box maw={350} mx="auto">
+          <DateTimePicker
+            clearable
+            dropdownType="modal"
+            label="Pick date and time"
+            placeholder="Pick date and time"
+            value={date}
+            onChange={setDate}
+            maw={400}
+            mb={20}
+          />
+          <PrimaryButton onClick={confirmBooking} text="Confirm Booking" />
+        </Box>
       </Popup>
     </DashboardLayout>
   )
