@@ -14,7 +14,7 @@ import Logo from '../branding/Logo'
 export default function DashboardLayout({ title, children }) {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
-  const isTablet = useMediaQuery('(min-width: 62em)')
+  const isTablet = useMediaQuery('(min-width: 62em)', true)
 
   return (
     <AppShell
