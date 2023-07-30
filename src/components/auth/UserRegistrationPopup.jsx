@@ -90,7 +90,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
               <TextInput
                 label="Password"
                 placeholder="Password"
-                type="text"
+                type="password"
                 {...form.getInputProps('password')}
               />
               <TextInput
