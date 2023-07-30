@@ -22,7 +22,7 @@ import { useMediaQuery } from '@mantine/hooks'
 const Navbar = ({ hidden }) => {
   const theme = useMantineTheme()
   const { user } = useUserStore()
-  const isTablet = useMediaQuery('(min-width: 62em)')
+
   const navItems = [
     {
       link: '/',
@@ -60,8 +60,9 @@ const Navbar = ({ hidden }) => {
     <MantineNavbar
       hidden={hidden}
       hiddenBreakpoint="md"
-      width={{ base: '100%', sm: 260, md: 260, lg: 300 }}
-      p="md"
+      width={{ base: '100%', sm: 260 }}
+      py={48}
+      px={24}
       fixed
       withBorder={false}
     >
