@@ -1,115 +1,60 @@
+import { useState } from 'react'
 import {
-  Grid,
-  ScrollArea,
-  Stack,
-  Title,
-  createStyles,
-  useMantineTheme
+  AppShell,
+  Header,
+  Burger,
+  useMantineTheme,
+  Container,
+  Title
 } from '@mantine/core'
+import Navbar from '../dashboard/Navbar'
+import { useMediaQuery } from '@mantine/hooks'
 import Logo from '../branding/Logo'
-import { Link, useMatch } from 'react-router-dom'
-import NavItem from '../dashboard/NavItem'
-import IconHome from '../icons/IconHome'
-import IconMessage from '../icons/IconMessage'
-import IconResource from '../icons/IconResource'
-import ProfileInfoCard from '../dashboard/ProfileInfoCard'
-import useUserStore from '../../store/userStore'
-import { useEffect } from 'react'
-import IconBooking from '../icons/IconBooking'
-import IconMentor from '../icons/IconMentor'
-import IconStats from '../icons/IconStats'
 
-const useStyles = createStyles((theme) => ({
-  grid: {
-    height: '100vh'
-  },
-  sideBar: {
-    borderRight: `1px solid ${theme.colors.lightPurple[0]}`
-  }
-}))
-
-const DashboardLayout = ({ title, children }) => {
+export default function DashboardLayout({ title, children }) {
   const theme = useMantineTheme()
-  const { user } = useUserStore()
-  const { classes } = useStyles()
+  const [opened, setOpened] = useState(false)
+  const isTablet = useMediaQuery('(min-width: 62em)')
 
-  const navItems = [
-    {
-      link: '/',
-      icon: <IconHome />,
-      text: 'Home'
-    },
-    {
-      link: '/bookings',
-      icon: <IconBooking />,
-      text: 'Bookings'
-    },
-    user?.user_metadata.role === 'mentee'
-      ? {
-          link: '/mentors',
-          icon: <IconMentor />,
-          text: 'Mentors'
-        }
-      : {
-          link: '/stats',
-          icon: <IconStats />,
-          text: 'Stats'
-        },
-    {
-      link: '/messages',
-      icon: <IconMessage />,
-      text: 'Messages'
-    },
-    {
-      link: '/resources',
-      icon: <IconResource />,
-      text: 'Resources'
-    }
-  ]
   return (
-    <Grid m={0} h="100vh">
-      <Grid.Col span={2} py={48} pl={32} pr={20} className={classes.sideBar}>
-        <Stack justify="space-between" align="center" h="100%">
-          <Logo
-            iconSize={32}
-            showText
-            textSize="lg"
-            textColor={theme.colors.darkBlack}
-            textWeight={600}
-          />
+    <AppShell
+      fixed
+      styles={{
+        main: {}
+      }}
+      navbarOffsetBreakpoint="md"
+      navbar={<Navbar hidden={!opened} />}
+      header={
+        !isTablet && (
+          <Header height={{ base: 50, md: 70 }} p="md">
+            <div
+              style={{ display: 'flex', alignItems: 'center', height: '100%' }}
+            >
+              <Burger
+                opened={opened}
+                onClick={() => setOpened((o) => !o)}
+                size="sm"
+                color={theme.colors.gray[6]}
+                mr="xl"
+              />
 
-          <Stack>
-            {navItems.map((item) => {
-              return (
-                <Link to={item.link} key={item.link}>
-                  <NavItem
-                    icon={item.icon}
-                    text={item.text}
-                    isActive={useMatch(item.link)}
-                  />
-                </Link>
-              )
-            })}
-          </Stack>
-
-          <ProfileInfoCard
-            firstName={user?.first_name}
-            lastName={user?.last_name}
-          />
-        </Stack>
-      </Grid.Col>
-      <Grid.Col span="auto" pt={48} px={48} h="100%">
-        {/* <Container size="xl" > */}
-
-        <ScrollArea type="auto" h="100%">
-          <Title mb={48}>{title}</Title>
-          {children}
-        </ScrollArea>
-
-        {/* </Container> */}
-      </Grid.Col>
-    </Grid>
+              <Logo
+                iconSize={24}
+                showText
+                textSize="md"
+                textColor={theme.colors.darkBlack}
+                textWeight={600}
+              />
+            </div>
+          </Header>
+        )
+      }
+    >
+      <Container size={1320}>
+        {' '}
+        <Title mb={48}>{title}</Title>
+        {children}
+      </Container>
+    </AppShell>
   )
 }
-
-export default DashboardLayout
