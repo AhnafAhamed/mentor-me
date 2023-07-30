@@ -1,4 +1,4 @@
-import { Tabs, Text } from '@mantine/core'
+import { LoadingOverlay, Tabs, Text } from '@mantine/core'
 import UpcomingMeetingCard from '../../components/global/UpcomingMeetingCard'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import supabase from '../../config/SupabaseClient'
@@ -69,8 +69,12 @@ const BookingsMentee = () => {
           <Tabs.Tab value="second">Confirmed</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="first">
-          {meetingCards ? meetingCards : <Text>Loading...</Text>}
+        <Tabs.Panel value="first" pos="relative" maw="100%" h="100px">
+          {meetingCards ? (
+            meetingCards
+          ) : (
+            <LoadingOverlay visible overlayBlur={2} />
+          )}
           {meetingCards?.length === 0 && <Text>No pending bookings</Text>}
         </Tabs.Panel>
 
