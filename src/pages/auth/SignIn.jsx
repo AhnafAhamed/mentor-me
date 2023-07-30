@@ -85,7 +85,7 @@ const SigIn = () => {
               <TextInput
                 label="Password"
                 placeholder="Password"
-                type="text"
+                type="password"
                 {...form.getInputProps('password')}
               />
               <PrimaryButton text="Sign In" type="submit" />

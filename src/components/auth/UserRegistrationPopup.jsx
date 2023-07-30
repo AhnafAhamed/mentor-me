@@ -96,7 +96,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
               <TextInput
                 label="Confirm Password"
                 placeholder="Confirm Password"
-                type="text"
+                type="password"
                 {...form.getInputProps('password')}
               />
             </SimpleGrid>
