@@ -50,7 +50,7 @@ export default function DashboardLayout({ title, children }) {
         )
       }
     >
-      <Container size={1320}>
+      <Container size={1320} pt={32}>
         {' '}
         <Title mb={48}>{title}</Title>
         {children}
