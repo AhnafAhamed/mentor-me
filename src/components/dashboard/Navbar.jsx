@@ -14,14 +14,20 @@ import {
   Navbar as MantineNavbar,
   Stack,
   MediaQuery,
-  Text,
-  Box
+  Box,
+  createStyles
 } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
+
+const useStyles = createStyles((theme) => ({
+  navbar: {
+    'border-right': `1px solid ${theme.colors.accentGray}`
+  }
+}))
 
 const Navbar = ({ hidden }) => {
   const theme = useMantineTheme()
   const { user } = useUserStore()
+  const { classes } = useStyles()
 
   const navItems = [
     {
@@ -64,7 +70,7 @@ const Navbar = ({ hidden }) => {
       py={48}
       px={24}
       fixed
-      withBorder={false}
+      className={classes.navbar}
     >
       <Stack justify="space-between" align="center" h="100%">
         <MediaQuery smallerThan="md" styles={{ display: 'none' }}>
