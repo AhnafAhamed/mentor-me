@@ -1,7 +1,7 @@
 import AuthLayout from '../../components/layouts/AuthLayout'
 import CoverImage from '../../assets/images/auth-cover.jpg'
 import {
-  Button,
+  Notification,
   Flex,
   Stack,
   Text,
@@ -14,9 +14,10 @@ import { useForm } from '@mantine/form'
 import { Link, useNavigate } from 'react-router-dom'
 import { signIn } from '../../services/Auth'
 import useUserStore from '../../store/userStore'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { getMentees } from '../../services/Mentee'
 import { getMentors } from '../../services/Mentor'
+import { notifications } from '@mantine/notifications'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -29,39 +30,49 @@ const SigIn = () => {
   const setUser = useUserStore((state) => state.setUser)
   const { user } = useUserStore()
   const { classes } = useStyles()
+  const [loading, setLoading] = useState(false)
   const form = useForm({
     initialValues: {
       email: '',
       password: ''
+    },
+    validateInputOnBlur: true,
+    validate: {
+      email: (value) =>
+        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value) ? null : 'Invalid email',
+      password: (value) => (value ? null : 'Password is required')
     }
-
-    // validate: {
-    //   email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-    // },
   })
 
   const submitForm = async (e) => {
     e.preventDefault()
+    if (!form.isValid()) return
+    setLoading(true)
     const result = await signIn(form.values)
+    if (result === 'invalid credentials') {
+      setLoading(false)
+      notifications.show({
+        title: 'Invalid Credentials',
+        message: 'Please check your email and password',
+        color: 'red'
+      })
+    }
     if (result.user) {
+      setLoading(false)
       let userData = null
-      console.log({ result })
       if (result.user.user_metadata.role === 'mentee') {
         const data = await getMentees()
-        console.log({ data })
         userData = data?.find((mentee) => mentee.user_uid === result.user.id)
       } else if (result.user.user_metadata.role === 'mentor') {
         const data = await getMentors()
         userData = data?.find((mentor) => mentor.user_uid === result.user.id)
       }
-      //set user data with result.user.user_metadata.role
       setUser({ ...result.user, ...userData })
       navigate('/')
     }
   }
 
   useEffect(() => {
-    console.log({ user })
     if (user) {
       navigate('/')
     }
@@ -88,14 +99,19 @@ const SigIn = () => {
                 type="password"
                 {...form.getInputProps('password')}
               />
-              <PrimaryButton text="Sign In" type="submit" />
+              <PrimaryButton
+                text="Sign In"
+                type="submit"
+                disabled={!form.isValid()}
+                loading={loading}
+              />
             </Stack>
           </form>
 
           <Stack spacing={32}>
             <Link to="/forget-password">
               <Text weight={600} td="underline">
-                Sign In
+                Forget Password
               </Text>
             </Link>
             <Flex gap={4}>

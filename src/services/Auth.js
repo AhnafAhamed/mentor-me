@@ -53,9 +53,11 @@ export const signIn = async (formData) => {
     password: formData.password
   })
 
-  // if (data) {
-  //   sessionStorage.setItem('token', JSON.stringify(data))
-  // }
+  if (error && error.status === 400) {
+    return 'invalid credentials'
+  }
 
-  return data ? data : error
+  if (data) {
+    return data
+  }
 }
