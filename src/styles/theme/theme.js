@@ -108,12 +108,18 @@ const THEME = {
           height: 'unset',
           border: `1px solid ${theme.colors.accentGray[0]}`,
           '&:focus': {
-            border: `1px solid ${theme.colors.darkBlack[0]}`
+            border: `2px solid ${theme.colors.darkBlack[0]}`
+          },
+          '&[data-invalid=true]:focus': {
+            borderColor: 'unset'
           }
         },
         label: {
           fontSize: theme.fontSizes.md,
           marginBottom: '8px'
+        },
+        error: {
+          textAlign: 'center'
         }
       })
     },
