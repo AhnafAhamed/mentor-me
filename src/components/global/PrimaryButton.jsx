@@ -10,10 +10,16 @@ const useStyles = createStyles((theme) => ({
     '&:hover': {
       backgroundColor: theme.colors.purple[0],
       opacity: 0.9
+    },
+    '&:disabled': {
+      opacity: 0.6
     }
   },
   inner: {
     fontSize: '16px'
+  },
+  centerLoader: {
+    position: 'unset'
   }
 }))
 
@@ -25,15 +31,17 @@ const PrimaryButton = ({ text, loading, disabled, type, onClick }) => {
     <Button
       classNames={{
         root: classes.root,
-        inner: classes.inner
+        inner: classes.inner,
+        centerLoader: classes.centerLoader
       }}
       fullWidth
       loading={loading}
       disabled={disabled}
       type={type}
       onClick={onClick}
+      loaderPosition="center"
     >
-      {text}
+      {loading ? '' : text}
     </Button>
   )
 }
