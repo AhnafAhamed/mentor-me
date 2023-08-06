@@ -21,22 +21,41 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
     initialValues: {
       email: '',
       password: '',
+      confirmPassword: '',
       role: '',
       firstName: '',
       lastName: '',
       gender: '',
-      age: 0,
+      age: null,
       college: '',
       workPlace: '',
       interests: [],
       expertise: [],
       jobTitle: '',
-      experience: 0
+      experience: null
+    },
+    validateInputOnBlur: true,
+    validate: {
+      email: (value) =>
+        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value) ? null : 'Invalid email',
+      //password should be 8 characters
+      password: (value) =>
+        value.length < 8 ? 'Password should be 8 characters' : null,
+      confirmPassword: (value, values) => {
+        if (!value || !values.password) return 'Password is required'
+        if (value !== values.password) return 'Passwords do not match'
+      },
+      firstName: (value) => (value ? null : 'First Name is required'),
+      lastName: (value) => (value ? null : 'Last Name is required'),
+      age: (value) => (value ? null : 'Age is required'),
+      gender: (value) => (value ? null : 'Age is required'),
+      college: (value) => (value ? null : 'College is required'),
+      workPlace: (value) => (value ? null : 'WorkPlace is required'),
+      jobTitle: (value) => (value ? null : 'Job Title is required'),
+      experience: (value) => (value ? null : 'Experience is required'),
+      interests: (value) => (value.length > 0 ? null : 'Interests is required'),
+      expertise: (value) => (value.length > 0 ? null : 'Expertise is required')
     }
-
-    // validate: {
-    //   email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-    // },
   })
 
   form.values.role = role
@@ -67,6 +86,11 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
     }
   }
 
+  useEffect(() => {
+    form.reset()
+    setCurrentStep(1)
+  }, [isOpen])
+
   return (
     <Popup
       title={status ? 'Congratulations!' : title}
@@ -86,7 +110,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
               {...form.getInputProps('email')}
             />
 
-            <SimpleGrid cols={2}>
+            <SimpleGrid cols={2} breakpoints={[{ maxWidth: '62rem', cols: 1 }]}>
               <TextInput
                 label="Password"
                 placeholder="Password"
@@ -97,20 +121,28 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
                 label="Confirm Password"
                 placeholder="Confirm Password"
                 type="password"
-                {...form.getInputProps('password')}
+                {...form.getInputProps('confirmPassword')}
               />
             </SimpleGrid>
             <Text ta="center" size="sm" color={theme.colors.darkGray[0]}>
               Step 1 of 2
             </Text>
-            <Box onClick={next}>
-              <PrimaryButton text="Continue" />
+            <Box>
+              <PrimaryButton
+                onClick={next}
+                text="Continue"
+                disabled={
+                  !form.isValid('email') ||
+                  !form.isValid('confirmPassword') ||
+                  !form.isValid('password')
+                }
+              />
             </Box>
           </Stack>
         ) : null}
         {currentStep === 2 && !status ? (
           <Stack spacing={24}>
-            <SimpleGrid cols={2}>
+            <SimpleGrid cols={2} breakpoints={[{ maxWidth: '62rem', cols: 1 }]}>
               <TextInput
                 label="First Name"
                 placeholder="First Name"
@@ -124,7 +156,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
                 {...form.getInputProps('lastName')}
               />
             </SimpleGrid>
-            <SimpleGrid cols={2}>
+            <SimpleGrid cols={2} breakpoints={[{ maxWidth: '62rem', cols: 1 }]}>
               <TextInput
                 label="Age"
                 placeholder="Age"
@@ -144,7 +176,10 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
               />
             </SimpleGrid>
             {role === 'mentor' ? (
-              <SimpleGrid cols={2}>
+              <SimpleGrid
+                cols={2}
+                breakpoints={[{ maxWidth: '62rem', cols: 1 }]}
+              >
                 <TextInput
                   label="WorkPlace"
                   placeholder="WorkPlace"
@@ -185,7 +220,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
               </SimpleGrid>
             ) : null}
             {role === 'mentor' ? (
-              <SimpleGrid cols={2}>
+              <SimpleGrid cols={1}>
                 <TextInput
                   label="Years of Experience"
                   placeholder="Years of Experience"
@@ -213,7 +248,27 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
             <Text ta="center" size="sm" color={theme.colors.darkGray[0]}>
               Step 2 of 2
             </Text>
-            <PrimaryButton text="Create Account" type="submit" />
+            <PrimaryButton
+              text="Create Account"
+              type="submit"
+              disabled={
+                role === 'mentor'
+                  ? !form.isValid('firstName') ||
+                    !form.isValid('lastName') ||
+                    !form.isValid('age') ||
+                    !form.isValid('gender') ||
+                    !form.isValid('workPlace') ||
+                    !form.isValid('jobTitle') ||
+                    !form.isValid('experience') ||
+                    !form.isValid('expertise')
+                  : !form.isValid('firstName') ||
+                    !form.isValid('lastName') ||
+                    !form.isValid('age') ||
+                    !form.isValid('gender') ||
+                    !form.isValid('college') ||
+                    !form.isValid('interests')
+              }
+            />
           </Stack>
         ) : null}
         {status ? (
