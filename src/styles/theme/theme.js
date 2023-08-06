@@ -150,6 +150,26 @@ const THEME = {
           border: '1px solid gray'
         }
       })
+    },
+    CloseButton: {
+      styles: (theme) => ({
+        root: {
+          color: theme.colors.darkBlack[0],
+          size: '24px',
+          '&:hover': {
+            color: theme.colors.darkBlack[0],
+            backgroundColor: `${theme.colors.lightPurple[0]} !important`,
+            borderRadius: '50%'
+          },
+          '&:focus-visible': {
+            outline: 'none'
+          },
+          svg: {
+            width: '24px !important',
+            height: '24px !important'
+          }
+        }
+      })
     }
   },
   globalStyles: (theme) => ({
