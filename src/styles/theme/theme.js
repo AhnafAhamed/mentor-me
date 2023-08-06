@@ -74,6 +74,9 @@ const THEME = {
         },
         defaultValueRemove: {
           color: theme.colors.accentGray[0]
+        },
+        error: {
+          textAlign: 'center'
         }
       })
     },
@@ -95,6 +98,9 @@ const THEME = {
           fontSize: '16px',
           marginBottom: '8px',
           color: theme.colors.darkBlack[0]
+        },
+        error: {
+          textAlign: 'center'
         }
       })
     },
