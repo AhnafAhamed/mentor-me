@@ -24,12 +24,10 @@ const Popup = ({
   children
 }) => {
   const { classes } = useStyles()
-  const clik = () => {
-    console.log('clik')
-  }
+
   return (
     <>
-      <Modal.Root opened={isOpen} onClose={isClosed} size="lg" centered>
+      <Modal.Root opened={isOpen} onClose={isClosed} size="auto" centered>
         <Modal.Overlay />
         <Modal.Content>
           <Modal.Header className={classes.header}>
