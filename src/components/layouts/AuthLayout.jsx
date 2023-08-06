@@ -19,7 +19,7 @@ const AuthLayout = ({ image, children }) => {
       </MediaQuery>
 
       <Stack mt={40}>
-        <Box pl={{ base: '32px', md: '0' }}>
+        <Box pl={{ base: '20px', md: '0' }}>
           <Logo
             iconSize={48}
             textSize="2xl"

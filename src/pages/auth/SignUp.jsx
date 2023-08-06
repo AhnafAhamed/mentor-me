@@ -44,7 +44,12 @@ const SignUp = () => {
   return (
     <>
       <AuthLayout image={CoverImage}>
-        <Stack spacing={0} mt={120} className={classes.wrapper}>
+        <Stack
+          spacing={0}
+          mt={120}
+          px={{ base: '20px', sm: '0' }}
+          className={classes.wrapper}
+        >
           <Stack spacing={12} mb={40}>
             <Title weight={700}>Get Started with Mentor Me</Title>
             <Text>Select the type of account you’d like to create.</Text>
