@@ -2,7 +2,6 @@ import { useForm } from '@mantine/form'
 import Popup from '../global/Popup'
 import {
   Box,
-  Button,
   MultiSelect,
   Select,
   SimpleGrid,
@@ -14,6 +13,7 @@ import {
 import PrimaryButton from '../global/PrimaryButton'
 import { useEffect, useState } from 'react'
 import { signUp } from '../../services/Auth'
+import IconDone from '../icons/IconDone'
 
 const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
   const theme = useMantineTheme()
@@ -62,6 +62,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
 
   const [currentStep, setCurrentStep] = useState(1)
   const [status, setStatus] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const next = () => {
     setCurrentStep(currentStep + 1) // Increment the current step by 1
@@ -73,16 +74,16 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
 
   const submitForm = async (e) => {
     e.preventDefault()
+    setLoading(true)
     const result = await signUp(form.values)
     if (result.user) {
       setStatus(true)
-
+      setLoading(false)
       setTimeout(() => {
-        isClosed()
-
-        setStatus(false)
         form.reset()
-      }, 500)
+        setStatus(false)
+        isClosed()
+      }, 2000)
     }
   }
 
@@ -268,14 +269,18 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
                     !form.isValid('college') ||
                     !form.isValid('interests')
               }
+              loading={loading}
             />
           </Stack>
         ) : null}
         {status ? (
-          <Text ta="center" size="md">
-            Your account has been successfully created.
-            <br /> Welcome to our community!
-          </Text>
+          <Stack align="center" spacing={24}>
+            <IconDone />
+            <Text ta="center" size="md">
+              Your account has been successfully created.
+              <br /> Welcome to our community!
+            </Text>
+          </Stack>
         ) : null}
       </form>
     </Popup>
