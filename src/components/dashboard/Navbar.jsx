@@ -20,7 +20,7 @@ import {
 
 const useStyles = createStyles((theme) => ({
   navbar: {
-    'border-right': `1px solid ${theme.colors.accentGray}`
+    borderRight: `1px solid ${theme.colors.accentGray}`
   }
 }))
 
