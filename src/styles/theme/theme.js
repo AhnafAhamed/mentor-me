@@ -176,6 +176,24 @@ const THEME = {
           }
         }
       })
+    },
+    Switch: {
+      styles: (theme) => ({
+        input: {
+          //checked
+          '&:checked + .mantine-Switch-track': {
+            backgroundColor: theme.colors.lightPurple[0],
+            border: `1px solid transparent`
+          }
+        },
+        track: {
+          backgroundColor: 'none',
+          border: `1px solid ${theme.colors.gray[0]}`
+        },
+        thumb: {
+          backgroundColor: theme.colors.darkPurple
+        }
+      })
     }
   },
   globalStyles: (theme) => ({
