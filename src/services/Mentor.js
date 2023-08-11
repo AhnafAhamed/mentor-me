@@ -15,5 +15,6 @@ export const updateMentor = async (id, userData) => {
     .from('Mentor')
     .update(userData)
     .eq('user_uid', id)
+    .select()
   return data ? data : error
 }
