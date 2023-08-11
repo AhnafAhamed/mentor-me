@@ -29,7 +29,7 @@ const Popup = ({
     <>
       <Modal.Root opened={isOpen} onClose={isClosed} size="auto" centered>
         <Modal.Overlay />
-        <Modal.Content>
+        <Modal.Content miw={400}>
           <Modal.Header className={classes.header}>
             <Modal.Title>
               {showLogo ? <Logo showText={false} iconSize={48} /> : null}
