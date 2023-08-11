@@ -1,4 +1,4 @@
-import { Flex, TextInput } from '@mantine/core'
+import { SimpleGrid, TextInput } from '@mantine/core'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import IconSearch from '../../components/icons/IconSearch'
 import ProfileCard from '../../components/global/ProfileCard'
@@ -22,13 +22,15 @@ const HomeMentee = () => {
   }, [])
   return (
     <DashboardLayout title="Home">
-      <TextInput
-        placeholder="Search for Mentors"
-        icon={<IconSearch />}
-        maw={400}
-        mb={48}
-      />
-      <Flex gap={35} justify="center">
+      <SimpleGrid
+        cols={4}
+        breakpoints={[
+          { maxWidth: 'xl', cols: 3, spacing: 'md' },
+          { maxWidth: 'md', cols: 3, spacing: 'sm' },
+          { maxWidth: 'sm', cols: 2, spacing: 'xs' },
+          { maxWidth: 'xs', cols: 1, spacing: 'xs' }
+        ]}
+      >
         {mentors.map((mentor) => (
           <ProfileCard
             key={mentor.id}
@@ -40,7 +42,7 @@ const HomeMentee = () => {
             company={mentor.workplace}
           />
         ))}
-      </Flex>
+      </SimpleGrid>
     </DashboardLayout>
   )
 }
