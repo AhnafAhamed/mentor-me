@@ -2,7 +2,8 @@ import supabase from '../config/SupabaseClient'
 
 export const getMentors = async () => {
   const { data, error } = await supabase.from('Mentor').select()
-  return data ? data : error
+  console.log({ mentors: data })
+  return { data, error }
 }
 
 export const getMentor = async (id) => {
@@ -10,11 +11,11 @@ export const getMentor = async (id) => {
   return data ? data : error
 }
 
-export const updateMentor = async (id, userData) => {
+export const updateMentor = async ([id, userData]) => {
   const { data, error } = await supabase
     .from('Mentor')
     .update(userData)
     .eq('user_uid', id)
     .select()
-  return data ? data : error
+  return { data, error }
 }
