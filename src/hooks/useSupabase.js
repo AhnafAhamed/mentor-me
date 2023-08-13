@@ -8,7 +8,6 @@ const useSupabase = (supaBaseCall) => {
   useEffect(() => {
     async function getData() {
       setLoading(true)
-      console.count()
       try {
         let { data, error } = await supaBaseCall()
         if (error) {
