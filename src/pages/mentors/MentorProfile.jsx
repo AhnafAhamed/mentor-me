@@ -15,7 +15,7 @@ import {
 import PrimaryButton from '../../components/global/PrimaryButton'
 import Popup from '../../components/global/Popup'
 import { useDisclosure } from '@mantine/hooks'
-import { DateTimePicker } from '@mantine/dates'
+import { DatePicker } from '@mantine/dates'
 import useUserStore from '../../store/userStore'
 
 const useStyles = createStyles((theme) => ({
@@ -73,6 +73,12 @@ const MentorProfile = () => {
     }
   }
 
+  const disabledDate = (date) => {
+    console.log({ date })
+    const day = date.getDay()
+    return day === 0 || day === 6 || day === 5
+  }
+
   useEffect(() => {
     console.log({ date })
   }, [date])
@@ -123,15 +129,18 @@ const MentorProfile = () => {
         isClosed={close}
       >
         <Box maw={350} mx="auto">
-          <DateTimePicker
+          <DatePicker
             clearable
             dropdownType="modal"
             label="Pick date and time"
             placeholder="Pick date and time"
             value={date}
             onChange={setDate}
+            maxLevel="month"
+            hideOutsideDates
             maw={400}
             mb={20}
+            excludeDate={disabledDate}
           />
           <PrimaryButton onClick={confirmBooking} text="Confirm Booking" />
         </Box>
