@@ -5,26 +5,27 @@ const useSupabase = (supaBaseCall) => {
   const [error, setError] = useState(null)
   const [data, setData] = useState(null)
 
-  useEffect(() => {
-    async function getData() {
-      setLoading(true)
-      try {
-        let { data, error } = await supaBaseCall()
-        if (error) {
-          setError(error)
-        } else {
-          setData(data)
-        }
-      } catch (e) {
-        setError(e)
-      } finally {
-        setLoading(false)
+  async function getData() {
+    setLoading(true)
+    try {
+      let { data, error } = await supaBaseCall()
+      if (error) {
+        setError(error)
+      } else {
+        setData(data)
       }
+    } catch (e) {
+      setError(e)
+    } finally {
+      setLoading(false)
     }
+  }
+
+  useEffect(() => {
     getData()
   }, [])
 
-  return { loading, data, error }
+  return { loading, data, error, getData }
 }
 
 export default useSupabase

@@ -25,19 +25,29 @@ import time from '../../data/time.json'
 import { useForm } from '@mantine/form'
 import { updateMentor } from '../../services/Mentor'
 import { notifications } from '@mantine/notifications'
+import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
+import useMentorBooking from '../../hooks/useMentorBooking'
+import { updateBooking } from '../../services/Booking'
 
 const BookingsMentor = () => {
   const [opened, { open, close }] = useDisclosure(false)
-  const [pendingBookings, setPendingBookings] = useState(null)
-  const [confirmedBookings, setConfirmedBookings] = useState(null)
-  const [confirmBookingLoader, setConfirmBookingLoader] = useState(false)
-  const [meetingCards, setMeetingCards] = useState(null)
-  const [confirmedMeetingCards, setConfirmedMeetingCards] = useState(null)
   const [selectedBooking, setSelectedBooking] = useState(null)
-  const [linkSent, setLinkSent] = useState(false)
   const [link, setLink] = useState('')
+  const [isBookingConfirmed, setIsBookingConfirmed] = useState(false)
   const { user } = useUserStore()
   const theme = useMantineTheme()
+  const {
+    callService: updateAvailabilityService,
+    loading: loadingUpdatedMentorData,
+    data: updatedMentorData,
+    error
+  } = useSuapbaseWithCallback(updateMentor)
+
+  const {
+    callService: updateBookingService,
+    loading: updateBookingLoading,
+    data: updateBookingData
+  } = useSuapbaseWithCallback(updateBooking)
 
   const form = useForm({
     validateInputOnChange: true,
@@ -47,7 +57,7 @@ const BookingsMentor = () => {
       weekEndStart: '8',
       weekEndEnd: '14',
       weekEndAvailable: true,
-      weekDayAvailable: false
+      weekDayAvailable: true
     },
 
     validate: {
@@ -56,64 +66,22 @@ const BookingsMentor = () => {
     }
   })
 
-  useEffect(() => {
-    console.log(form.values)
-  }, [form.values])
+  const { confirmedBookings, pendingBookings, getNewPendingBookings } =
+    useMentorBooking()
 
   useEffect(() => {
-    getBookings('pending')
-    getBookings('confirmed')
-    console.log({ time })
-  }, [])
-
-  useEffect(() => {
-    renderUpcomingMeetingCards()
-  }, [pendingBookings])
-
-  useEffect(() => {
-    renderConfirmedMeetingCards()
-  }, [confirmedBookings])
-
-  const getBookings = async (status) => {
-    const { data } = await supabase
-      .from('bookings')
-      .select()
-      .eq('confirmation_status', status)
-      .eq('booked_mentor', user.user_uid)
-    if (data && status === 'pending') {
-      setPendingBookings(data)
-    } else if (data && status === 'confirmed') {
-      setConfirmedBookings(data)
-    }
-  }
-
-  const getBookedMentee = async (id, type) => {
-    const { data } = await supabase.from('Mentee').select().eq('user_uid', id)
-    if (!data) return
-    if (type === 'first') return data[0].first_name
-    if (type === 'last') return data[0].last_name
-    if (type === 'college') return data[0].college
-  }
-
-  const confirmBooking = async () => {
-    setConfirmBookingLoader(true)
-    const { data } = await supabase
-      .from('bookings')
-      .update({ confirmation_status: 'confirmed', meeting_link: link })
-      .eq('id', selectedBooking)
-      .select()
-    console.log({ data })
-
-    if (data) {
-      setLinkSent(true)
-      setConfirmBookingLoader(false)
-      console.log({ data })
-      getBookings('pending')
+    if (updateBookingData) {
+      getNewPendingBookings()
       setTimeout(() => {
-        setLinkSent(false)
         close()
+        setIsBookingConfirmed(false)
       }, 2000)
     }
+  }, [updateBookingData])
+
+  const confirmBooking = async () => {
+    await updateBookingService(selectedBooking, 'confirmed', link)
+    setIsBookingConfirmed(true)
   }
 
   const openConfirmPopup = (id) => {
@@ -121,64 +89,12 @@ const BookingsMentor = () => {
     setSelectedBooking(id)
   }
 
-  const renderUpcomingMeetingCards = async () => {
-    if (!pendingBookings) return null
-
-    const upcomingMeetingCards = await Promise.all(
-      pendingBookings.map(async (booking) => {
-        const firstName = await getBookedMentee(booking.booked_by, 'first')
-        const lastName = await getBookedMentee(booking.booked_by, 'last')
-        const title = await getBookedMentee(booking.booked_by, 'college')
-
-        return (
-          <UpcomingMeetingCard
-            key={booking.id} // Don't forget to add a unique key for each mapped element
-            firstName={firstName}
-            lastName={lastName}
-            title={title}
-            time={booking.meeting_time}
-            confirmClick={() => openConfirmPopup(booking.id)}
-            showButtons
-          />
-        )
-      })
-    )
-    console.log({ upcomingMeetingCards })
-    setMeetingCards(upcomingMeetingCards)
-  }
-
-  const renderConfirmedMeetingCards = async () => {
-    if (!confirmedBookings) return null
-
-    const confirmedMeetingCards = await Promise.all(
-      confirmedBookings.map(async (booking) => {
-        const firstName = await getBookedMentee(booking.booked_by, 'first')
-        const lastName = await getBookedMentee(booking.booked_by, 'last')
-        const title = await getBookedMentee(booking.booked_by, 'college')
-
-        return (
-          <UpcomingMeetingCard
-            key={booking.id} // Don't forget to add a unique key for each mapped element
-            firstName={firstName}
-            lastName={lastName}
-            title={title}
-            time={booking.meeting_time}
-            meetingLink
-          />
-        )
-      })
-    )
-    console.log({ confirmedMeetingCards })
-    setConfirmedMeetingCards(confirmedMeetingCards)
-  }
-
   const updateAvailability = async () => {
-    console.log(form.values)
-    const result = await updateMentor(user.user_uid, {
+    await updateAvailabilityService(user.user_uid, {
       availability: form.values
     })
-    console.log({ result })
-    if (result) {
+
+    if (updatedMentorData) {
       notifications.show({
         title: 'Your Availability Updated Successfully',
         color: 'green'
@@ -189,15 +105,15 @@ const BookingsMentor = () => {
   return (
     <DashboardLayout title="Bookings">
       <Container size="lg">
-        <Tabs defaultValue="first">
+        <Tabs defaultValue="upcoming">
           <Tabs.List position="center">
-            <Tabs.Tab value="first">Upcoming</Tabs.Tab>
-            <Tabs.Tab value="second">Pending</Tabs.Tab>
-            <Tabs.Tab value="third">Set Availability</Tabs.Tab>
-            <Tabs.Tab value="fourth">Past</Tabs.Tab>
+            <Tabs.Tab value="upcoming">Upcoming</Tabs.Tab>
+            <Tabs.Tab value="pending">Pending</Tabs.Tab>
+            <Tabs.Tab value="availability">Set Availability</Tabs.Tab>
+            <Tabs.Tab value="past">Past</Tabs.Tab>
           </Tabs.List>
-          <Tabs.Panel value="first">
-            {confirmedMeetingCards ? (
+          <Tabs.Panel value="upcoming">
+            {confirmedBookings ? (
               <SimpleGrid
                 cols={4}
                 mt={48}
@@ -208,17 +124,24 @@ const BookingsMentor = () => {
                   { maxWidth: 'xs', cols: 1, spacing: 'xs' }
                 ]}
               >
-                {confirmedMeetingCards}
+                {confirmedBookings.map((booking) => {
+                  return (
+                    <UpcomingMeetingCard
+                      key={booking.id} // Don't forget to add a unique key for each mapped element
+                      firstName={booking.Mentee.first_name}
+                      lastName={booking.Mentee.last_name}
+                      title={booking.Mentee.college}
+                      time={booking.meeting_time}
+                    />
+                  )
+                })}
               </SimpleGrid>
             ) : (
               <Text>Loading...</Text>
             )}
-            {confirmedMeetingCards?.length === 0 && (
-              <Text>No pending bookings</Text>
-            )}
           </Tabs.Panel>
-          <Tabs.Panel value="second">
-            {meetingCards ? (
+          <Tabs.Panel value="pending">
+            {pendingBookings ? (
               <SimpleGrid
                 cols={4}
                 mt={48}
@@ -229,14 +152,25 @@ const BookingsMentor = () => {
                   { maxWidth: 'xs', cols: 1, spacing: 'xs' }
                 ]}
               >
-                {meetingCards}
+                {pendingBookings.map((booking) => {
+                  return (
+                    <UpcomingMeetingCard
+                      key={booking.id} // Don't forget to add a unique key for each mapped element
+                      firstName={booking.Mentee.first_name}
+                      lastName={booking.Mentee.last_name}
+                      title={booking.Mentee.college}
+                      time={booking.meeting_time}
+                      confirmClick={() => openConfirmPopup(booking.id)}
+                      showButtons
+                    />
+                  )
+                })}
               </SimpleGrid>
             ) : (
               <Text>Loading...</Text>
             )}
-            {meetingCards?.length === 0 && <Text>No pending bookings</Text>}
           </Tabs.Panel>
-          <Tabs.Panel value="third">
+          <Tabs.Panel value="availability">
             <Text
               mt={48}
               mb={32}
@@ -307,21 +241,25 @@ const BookingsMentor = () => {
                 </Flex>
               </Stack>
               <Center maw={320} miw={200} mx="auto">
-                <PrimaryButton text="Save" onClick={updateAvailability} />
+                <PrimaryButton
+                  text="Save"
+                  onClick={updateAvailability}
+                  loading={loadingUpdatedMentorData}
+                />
               </Center>
             </Stack>
           </Tabs.Panel>
-          <Tabs.Panel value="fourth">
+          <Tabs.Panel value="past">
             <h1>Past</h1>
           </Tabs.Panel>
         </Tabs>
       </Container>
       <Popup
-        title={!linkSent ? 'Confirm Booking' : 'Booking Confirmed'}
+        title={!isBookingConfirmed ? 'Confirm Booking' : 'Booking Confirmed'}
         isOpen={opened}
         isClosed={close}
       >
-        {!linkSent ? (
+        {!isBookingConfirmed ? (
           <Stack>
             <TextInput
               placeholder="Meeting link"
@@ -332,7 +270,7 @@ const BookingsMentor = () => {
             <PrimaryButton
               text="Send Meeting Link"
               onClick={confirmBooking}
-              loading={confirmBookingLoader}
+              loading={updateBookingLoading}
             />
           </Stack>
         ) : (

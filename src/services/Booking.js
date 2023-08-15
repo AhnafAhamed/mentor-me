@@ -12,8 +12,12 @@ export const getBookings = async (id, status) => {
   return { data, error }
 }
 
-export const getMentors = async () => {
-  const { data, error } = await supabase.from('Mentor').select()
-  console.log({ mentors: data })
+export const updateBooking = async ([bookingId, status, link]) => {
+  const { data, error } = await supabase
+    .from('bookings')
+    .update({ confirmation_status: status, meeting_link: link })
+    .eq('id', bookingId)
+    .select()
+
   return { data, error }
 }
