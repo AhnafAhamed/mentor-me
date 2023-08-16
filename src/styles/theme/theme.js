@@ -10,7 +10,8 @@ const THEME = {
     accentGray: ['#DDDDDD'],
     purple: ['#513DFF'],
     lightPurple: ['#EFEEFF'],
-    darkPurple: '#4A148C'
+    darkPurple: '#4A148C',
+    gold: '#FFC200'
   },
 
   shadows: {
