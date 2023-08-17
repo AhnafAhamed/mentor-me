@@ -3,6 +3,7 @@ import {
   Center,
   Container,
   Flex,
+  Loader,
   Select,
   SimpleGrid,
   Stack,
@@ -15,7 +16,6 @@ import {
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import UpcomingMeetingCard from '../../components/global/UpcomingMeetingCard'
 import { useEffect, useState } from 'react'
-import supabase from '../../config/SupabaseClient'
 import useUserStore from '../../store/userStore'
 import Popup from '../../components/global/Popup'
 import { useDisclosure } from '@mantine/hooks'
@@ -28,6 +28,9 @@ import { notifications } from '@mantine/notifications'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import useMentorBooking from '../../hooks/useMentorBooking'
 import { updateBooking } from '../../services/Booking'
+import CustomLoader from '../../components/global/CustomLoader'
+import ReviewCard from '../../components/global/ReviewCard'
+import useReview from '../../hooks/useReview'
 
 const BookingsMentor = () => {
   const [opened, { open, close }] = useDisclosure(false)
@@ -49,6 +52,11 @@ const BookingsMentor = () => {
     data: updateBookingData
   } = useSuapbaseWithCallback(updateBooking)
 
+  const { confirmedBookings, pendingBookings, getNewPendingBookings } =
+    useMentorBooking()
+
+  const { reviews } = useReview()
+
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -65,9 +73,6 @@ const BookingsMentor = () => {
         value < values.weekDayStart ? null : 'Invalid Time'
     }
   })
-
-  const { confirmedBookings, pendingBookings, getNewPendingBookings } =
-    useMentorBooking()
 
   useEffect(() => {
     if (updateBookingData) {
@@ -137,7 +142,7 @@ const BookingsMentor = () => {
                 })}
               </SimpleGrid>
             ) : (
-              <Text>Loading...</Text>
+              <Loader mt={48} />
             )}
           </Tabs.Panel>
           <Tabs.Panel value="pending">
@@ -167,7 +172,7 @@ const BookingsMentor = () => {
                 })}
               </SimpleGrid>
             ) : (
-              <Text>Loading...</Text>
+              <CustomLoader />
             )}
           </Tabs.Panel>
           <Tabs.Panel value="availability">
@@ -250,7 +255,27 @@ const BookingsMentor = () => {
             </Stack>
           </Tabs.Panel>
           <Tabs.Panel value="past">
-            <h1>Past</h1>
+            {reviews ? (
+              <Center spacing={32} mt={48}>
+                <Stack>
+                  {reviews.map((review) => {
+                    return (
+                      <ReviewCard
+                        key={review.id}
+                        firstName={review.Mentee.first_name}
+                        lastName={review.Mentee.last_name}
+                        title={review.Mentee.college}
+                        time={review.meeting_time}
+                        rating={review.rating}
+                        review={review.review}
+                      />
+                    )
+                  })}
+                </Stack>
+              </Center>
+            ) : (
+              <CustomLoader />
+            )}
           </Tabs.Panel>
         </Tabs>
       </Container>
