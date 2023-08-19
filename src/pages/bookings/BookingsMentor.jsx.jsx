@@ -142,7 +142,7 @@ const BookingsMentor = () => {
                 })}
               </SimpleGrid>
             ) : (
-              <Loader mt={48} />
+              <CustomLoader />
             )}
           </Tabs.Panel>
           <Tabs.Panel value="pending">
