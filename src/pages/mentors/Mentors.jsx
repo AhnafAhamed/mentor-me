@@ -16,7 +16,7 @@ const Mentors = () => {
         maw={400}
         mb={48}
       />
-      <Flex gap={35} justify="center">
+      <Flex gap={35} justify="center" wrap="wrap">
         {mentors ? (
           mentors?.map((mentor) => (
             <ProfileCard
