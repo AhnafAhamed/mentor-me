@@ -11,7 +11,7 @@ import IconBriefCase from '../icons/IconBriefCase'
 import IconStarFilled from '../icons/IconStarFilled'
 import PrimaryButton from './PrimaryButton'
 import PlaceHolderImage from '../../assets/images/profile-1.jpg'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -42,9 +42,16 @@ const ProfileCard = ({
   id
 }) => {
   const { classes } = useStyles()
+  const navigate = useNavigate()
 
   const viewProfile = () => {
-    console.log('View Profile')
+    const currentPath = window.location.pathname
+
+    if (currentPath.includes('/mentors')) {
+      navigate(`${id}`)
+    } else {
+      navigate(`/mentors/${id}`)
+    }
   }
   return (
     <Box className={classes.card}>
@@ -70,9 +77,7 @@ const ProfileCard = ({
               </Flex>
             </Flex>
           </Stack>
-          <Link to={`mentors/${id}`}>
-            <PrimaryButton text="View Profile" onClick={viewProfile} />
-          </Link>
+          <PrimaryButton text="View Profile" onClick={viewProfile} />
         </Stack>
       </Overlay>
     </Box>
