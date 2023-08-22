@@ -23,7 +23,14 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-const PrimaryButton = ({ text, loading, disabled, type, onClick }) => {
+const PrimaryButton = ({
+  text,
+  loading,
+  disabled,
+  type,
+  onClick,
+  ...props
+}) => {
   const theme = useMantineTheme()
   const { classes } = useStyles()
 
@@ -39,6 +46,7 @@ const PrimaryButton = ({ text, loading, disabled, type, onClick }) => {
       disabled={disabled}
       type={type}
       onClick={onClick}
+      {...props}
       loaderPosition="center"
     >
       {loading ? '' : text}

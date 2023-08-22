@@ -64,7 +64,7 @@ const SigIn = () => {
         const data = await getMentees()
         userData = data?.find((mentee) => mentee.user_uid === result.user.id)
       } else if (result.user.user_metadata.role === 'mentor') {
-        const data = await getMentors()
+        const { data } = await getMentors()
         userData = data?.find((mentor) => mentor.user_uid === result.user.id)
       }
       setUser({ ...result.user, ...userData })
