@@ -195,6 +195,32 @@ const THEME = {
           backgroundColor: theme.colors.darkPurple
         }
       })
+    },
+    DatePicker: {
+      styles: (theme) => ({
+        //day disabled
+        day: {
+          '&:disabled': {
+            color: theme.colors.accentGray[0]
+          },
+          '&:hover': {
+            backgroundColor: theme.colors.lightPurple[0]
+          },
+          //data-selected
+          '&[data-selected=true]': {
+            backgroundColor: theme.colors.purple[0]
+          },
+          //data-selected hover
+          '&[data-selected=true]:hover': {
+            backgroundColor: theme.colors.purple[0]
+          }
+        },
+        calendarHeaderControl: {
+          '&:hover': {
+            backgroundColor: theme.colors.lightPurple[0]
+          }
+        }
+      })
     }
   },
   globalStyles: (theme) => ({

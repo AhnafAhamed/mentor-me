@@ -33,3 +33,12 @@ export const updateBooking = async ([bookingId, status, link]) => {
 
   return { data, error }
 }
+
+export const addBooking = async (booking) => {
+  const { data, error } = await supabase
+    .from('bookings')
+    .insert(booking[0])
+    .select()
+
+  return { data, error }
+}
