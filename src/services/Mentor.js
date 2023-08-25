@@ -6,10 +6,7 @@ export const getMentors = async () => {
 }
 
 export const getMentor = async (id) => {
-  const { data, error } = await supabase
-    .from('Mentor')
-    .select()
-    .eq('user_uid', id)
+  const { data, error } = await supabase.from('Mentor').select().eq('id', id)
   return { data, error }
 }
 

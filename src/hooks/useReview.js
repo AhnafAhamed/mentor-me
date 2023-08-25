@@ -1,7 +1,10 @@
-import { getReviews } from '../services/Review'
+import { getMentorReviews, getReviews } from '../services/Review'
+import useUserStore from '../store/userStore'
 import useSupabase from './useSupabase'
 
-const useReview = () => {
+const useReview = (mentorId) => {
+  const { user } = useUserStore()
+
   const {
     loading: reviewsLoading,
     data: reviews,
@@ -9,8 +12,16 @@ const useReview = () => {
     getData: getNewReviews
   } = useSupabase(getReviews)
 
+  const {
+    loading: mentoReviewsLoading,
+    data: mentorReviews,
+    error: mentorReviewsError,
+    getData: getNewMentorReviews
+  } = useSupabase(getMentorReviews.bind(this, mentorId))
+
   return {
-    reviews
+    reviews,
+    mentorReviews
   }
 }
 

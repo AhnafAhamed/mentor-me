@@ -11,7 +11,8 @@ import {
   Text,
   Tabs,
   useMantineTheme,
-  ScrollArea
+  ScrollArea,
+  Center
 } from '@mantine/core'
 import PrimaryButton from '../../components/global/PrimaryButton'
 import { DatePicker } from '@mantine/dates'
@@ -24,6 +25,8 @@ import TimeSlot from '../../components/global/TimeSlot'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import { addBooking } from '../../services/Booking'
 import { notifications } from '@mantine/notifications'
+import useReview from '../../hooks/useReview'
+import ReviewCard from '../../components/global/ReviewCard'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -59,15 +62,18 @@ const MentorProfile = () => {
   const theme = useMantineTheme()
   const { data: mentor } = useSupabase(getMentor.bind(this, userId))
 
+  const [activeTab, setActiveTab] = useState('overview')
   const [selectedDate, setSelectedDate] = useState(null)
   const [selectedSlot, setSelectedSlot] = useState(null)
   const [selectedSlotId, setSelectedSlotId] = useState(null)
   const [isMentorAvailable, setIsMentorAvailable] = useState(false)
+  const [selectedMentor, setSelectedMentor] = useState(null)
   const {
     callService: addBookingService,
     loading: loadingBookingData,
     data: bookingData
   } = useSuapbaseWithCallback(addBooking)
+  const { mentorReviews } = useReview(userId)
 
   const currentDate = new Date()
   const tomorrow = new Date(currentDate)
@@ -82,7 +88,12 @@ const MentorProfile = () => {
   }
 
   useEffect(() => {
+    console.log({ selectedMentor: selectedMentor })
+  }, [selectedMentor])
+
+  useEffect(() => {
     if (!mentor) return
+    setSelectedMentor(mentor[0])
     if (
       !mentor[0].availability.weekDayAvailable &&
       !mentor[0].availability.weekEndAvailable
@@ -148,7 +159,11 @@ const MentorProfile = () => {
           </Text>
         </Flex>
       </Stack>
-      <Tabs defaultValue="overview">
+      <Tabs
+        defaultValue="overview"
+        value={activeTab}
+        onTabChange={setActiveTab}
+      >
         <Tabs.List position="center" mb={48}>
           <Tabs.Tab value="overview">Overview</Tabs.Tab>
           <Tabs.Tab value="slots">Available Slots</Tabs.Tab>
@@ -159,7 +174,12 @@ const MentorProfile = () => {
           <Text className={classes.introduction} size="md" mb={32}>
             {mentor[0]?.introduction}
           </Text>
-          <PrimaryButton text="Book Now" onClick={open} maw={320} m="auto" />
+          <PrimaryButton
+            text="Book Now"
+            maw={320}
+            m="auto"
+            onClick={() => setActiveTab('slots')}
+          />
         </Tabs.Panel>
 
         <Tabs.Panel value="slots">
@@ -234,12 +254,31 @@ const MentorProfile = () => {
               />
             </>
           ) : (
-            <Text>Mentor is currently unavailable</Text>
+            <Text align="center">Mentor is currently unavailable</Text>
           )}
         </Tabs.Panel>
 
         <Tabs.Panel value="review">
-          <Text>Reviews</Text>
+          <Center spacing={32} mt={48}>
+            <Stack>
+              {mentorReviews ? (
+                mentorReviews.map((review) => (
+                  <ReviewCard
+                    key={review.id}
+                    firstName={review.Mentee.first_name}
+                    lastName={review.Mentee.last_name}
+                    title={review.Mentee.college}
+                    time={review.meeting_start}
+                    rating={review.rating}
+                    review={review.review}
+                  />
+                ))
+              ) : (
+                <CustomLoader />
+              )}
+              {mentorReviews?.length === 0 && <Text>No reviews yet</Text>}
+            </Stack>
+          </Center>
         </Tabs.Panel>
       </Tabs>
     </DashboardLayout>
