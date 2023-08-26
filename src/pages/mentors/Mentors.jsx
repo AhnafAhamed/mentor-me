@@ -27,6 +27,7 @@ const Mentors = () => {
               jobTitle={mentor.job_title}
               rating={Math.floor(Math.random() * 5) + 1}
               company={mentor.workplace}
+              image={mentor.image}
             />
           ))
         ) : (
