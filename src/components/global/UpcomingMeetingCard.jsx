@@ -5,6 +5,7 @@ import IconVideo from '../icons/IconVideo'
 import PrimaryButton from './PrimaryButton'
 import SecondaryButton from './SecondaryButton'
 import { Link } from 'react-router-dom'
+import dayjs from 'dayjs'
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -35,7 +36,7 @@ const UpcomingMeetingCard = ({
       />
       <Flex gap={20}>
         <IconTime />
-        <Text>{time}</Text>
+        <Text>{dayjs(time).format('DD MMM YYYY hh:mm A')}</Text>
       </Flex>
       <Flex gap={20}>
         <IconVideo />
