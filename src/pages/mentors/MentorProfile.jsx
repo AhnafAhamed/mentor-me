@@ -88,7 +88,6 @@ const MentorProfile = () => {
 
   useEffect(() => {
     if (!mentor) return
-    setSelectedMentor(mentor[0])
     if (
       !mentor[0].availability.weekDayAvailable &&
       !mentor[0].availability.weekEndAvailable
@@ -242,6 +241,7 @@ const MentorProfile = () => {
               <PrimaryButton
                 text="Book"
                 maw={300}
+                mt={32}
                 mx="auto"
                 disabled={!selectedSlot}
                 loading={loadingBookingData}
