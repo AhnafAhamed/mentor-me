@@ -1,9 +1,7 @@
 import {
-  Box,
   Center,
   Container,
   Flex,
-  Loader,
   Select,
   SimpleGrid,
   Stack,
@@ -29,7 +27,6 @@ import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import useMentorBooking from '../../hooks/useMentorBooking'
 import { updateBooking } from '../../services/Booking'
 import CustomLoader from '../../components/global/CustomLoader'
-import ReviewCard from '../../components/global/ReviewCard'
 import useReview from '../../hooks/useReview'
 
 const BookingsMentor = () => {

@@ -1,10 +1,7 @@
 import { getMentorReviews, getReviews } from '../services/Review'
-import useUserStore from '../store/userStore'
 import useSupabase from './useSupabase'
 
 const useReview = (mentorId) => {
-  const { user } = useUserStore()
-
   const {
     loading: reviewsLoading,
     data: reviews,

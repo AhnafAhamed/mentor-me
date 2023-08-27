@@ -67,7 +67,6 @@ const MentorProfile = () => {
   const [selectedSlot, setSelectedSlot] = useState(null)
   const [selectedSlotId, setSelectedSlotId] = useState(null)
   const [isMentorAvailable, setIsMentorAvailable] = useState(false)
-  const [selectedMentor, setSelectedMentor] = useState(null)
   const {
     callService: addBookingService,
     loading: loadingBookingData,
@@ -86,10 +85,6 @@ const MentorProfile = () => {
 
     setSelectedSlot(selectedDateTime)
   }
-
-  useEffect(() => {
-    console.log({ selectedMentor: selectedMentor })
-  }, [selectedMentor])
 
   useEffect(() => {
     if (!mentor) return
