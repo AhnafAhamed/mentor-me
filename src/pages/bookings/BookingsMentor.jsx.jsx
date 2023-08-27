@@ -55,7 +55,7 @@ const BookingsMentor = () => {
   const { confirmedBookings, pendingBookings, getNewPendingBookings } =
     useMentorBooking()
 
-  const { reviews } = useReview()
+  const { mentorReviews } = useReview(user.id)
 
   const form = useForm({
     validateInputOnChange: true,
@@ -255,10 +255,10 @@ const BookingsMentor = () => {
             </Stack>
           </Tabs.Panel>
           <Tabs.Panel value="past">
-            {reviews ? (
+            {mentorReviews ? (
               <Center spacing={32} mt={48}>
                 <Stack>
-                  {reviews.map((review) => {
+                  {mentorReviews.map((review) => {
                     return (
                       <ReviewCard
                         key={review.id}
@@ -275,6 +275,9 @@ const BookingsMentor = () => {
               </Center>
             ) : (
               <CustomLoader />
+            )}
+            {mentorReviews?.length === 0 && (
+              <Text align="center">No reviews yet</Text>
             )}
           </Tabs.Panel>
         </Tabs>

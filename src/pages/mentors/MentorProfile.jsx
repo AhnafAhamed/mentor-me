@@ -111,7 +111,7 @@ const MentorProfile = () => {
       booked_mentor_id: mentor[0].id,
       booked_by: user.user_uid,
       booked_by_id: user.id,
-      confirmation_status: 'pending',
+      meeting_status: 'pending',
       payment_status: 'unpaid'
     })
 
