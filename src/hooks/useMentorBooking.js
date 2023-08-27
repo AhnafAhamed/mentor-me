@@ -17,8 +17,15 @@ const useMentorBooking = () => {
     error: confirmedBookingsError
   } = useSupabase(getBookings.bind(this, user.user_uid, 'confirmed'))
 
+  const {
+    loading: completedBookingsLoading,
+    data: completedBookings,
+    error: completedBookingError
+  } = useSupabase(getBookings.bind(this, user.user_uid, 'completed'))
+
   return {
     pendingBookings,
+    completedBookings,
     confirmedBookings,
     getNewPendingBookings
   }

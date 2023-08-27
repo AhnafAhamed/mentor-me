@@ -52,8 +52,12 @@ const BookingsMentor = () => {
     data: updateBookingData
   } = useSuapbaseWithCallback(updateBooking)
 
-  const { confirmedBookings, pendingBookings, getNewPendingBookings } =
-    useMentorBooking()
+  const {
+    confirmedBookings,
+    pendingBookings,
+    completedBookings,
+    getNewPendingBookings
+  } = useMentorBooking()
 
   const { mentorReviews } = useReview(user.id)
 
@@ -144,6 +148,9 @@ const BookingsMentor = () => {
             ) : (
               <CustomLoader />
             )}
+            {confirmedBookings?.length === 0 && (
+              <Text align="center">No Upcoming Meetings</Text>
+            )}
           </Tabs.Panel>
           <Tabs.Panel value="pending">
             {pendingBookings ? (
@@ -173,6 +180,9 @@ const BookingsMentor = () => {
               </SimpleGrid>
             ) : (
               <CustomLoader />
+            )}
+            {pendingBookings?.length === 0 && (
+              <Text align="center">No Pending Meetings</Text>
             )}
           </Tabs.Panel>
           <Tabs.Panel value="availability">
@@ -255,29 +265,36 @@ const BookingsMentor = () => {
             </Stack>
           </Tabs.Panel>
           <Tabs.Panel value="past">
-            {mentorReviews ? (
-              <Center spacing={32} mt={48}>
-                <Stack>
-                  {mentorReviews.map((review) => {
-                    return (
-                      <ReviewCard
-                        key={review.id}
-                        firstName={review.Mentee.first_name}
-                        lastName={review.Mentee.last_name}
-                        title={review.Mentee.college}
-                        time={review.meeting_time}
-                        rating={review.rating}
-                        review={review.review}
-                      />
-                    )
-                  })}
-                </Stack>
-              </Center>
+            {completedBookings ? (
+              <SimpleGrid
+                cols={4}
+                mt={48}
+                breakpoints={[
+                  { maxWidth: 'xl', cols: 3, spacing: 'md' },
+                  { maxWidth: 'md', cols: 3, spacing: 'sm' },
+                  { maxWidth: 'sm', cols: 2, spacing: 'xs' },
+                  { maxWidth: 'xs', cols: 1, spacing: 'xs' }
+                ]}
+              >
+                {completedBookings.map((booking) => {
+                  return (
+                    <UpcomingMeetingCard
+                      key={booking.id} // Don't forget to add a unique key for each mapped element
+                      firstName={booking.Mentee.first_name}
+                      lastName={booking.Mentee.last_name}
+                      title={booking.Mentee.college}
+                      time={booking.meeting_time}
+                      confirmClick={() => openConfirmPopup(booking.id)}
+                      showButtons
+                    />
+                  )
+                })}
+              </SimpleGrid>
             ) : (
               <CustomLoader />
             )}
-            {mentorReviews?.length === 0 && (
-              <Text align="center">No reviews yet</Text>
+            {completedBookings?.length === 0 && (
+              <Text align="center">No Past Meetings</Text>
             )}
           </Tabs.Panel>
         </Tabs>
