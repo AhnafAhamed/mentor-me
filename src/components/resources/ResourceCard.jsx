@@ -29,9 +29,11 @@ const ResourceCard = ({
         <Text size="lg" weight="bold" color={theme.colors.purple[0]}>
           {title}
         </Text>
-        <Link to={link} target="_blank">
-          <IconLink />
-        </Link>
+        {link && (
+          <Link to={link} target="_blank">
+            <IconLink />
+          </Link>
+        )}
       </Flex>
 
       <Text size="sm" color={theme.colors.darkGray[0]}>

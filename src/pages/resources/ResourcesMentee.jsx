@@ -5,7 +5,7 @@ import ResourceCard from '../../components/resources/ResourceCard'
 import useSupabase from '../../hooks/useSupabase'
 import CustomLoader from '../../components/global/CustomLoader'
 
-const Resources = () => {
+const ResourcesMentee = () => {
   const { data: resources } = useSupabase(getResources)
   return (
     <DashboardLayout title="Resources">
@@ -32,4 +32,4 @@ const Resources = () => {
   )
 }
 
-export default Resources
+export default ResourcesMentee

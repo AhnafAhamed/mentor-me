@@ -1,12 +1,10 @@
 import './App.css'
-import { useEffect } from 'react'
 import SignUp from './pages/auth/SignUp'
 import { Route, Routes } from 'react-router-dom'
 import SignIn from './pages/auth/SignIn'
 import PrivatRoute from './navigation/PrivateRoute'
 import HomeMentee from './pages/home/HomeMentee'
 import Messages from './pages/messages/Messages'
-import Resources from './pages/resources/Resources'
 import Settings from './pages/settings/Settings'
 import Profile from './pages/profile/Profile'
 import useUserStore from './store/userStore'
@@ -16,6 +14,8 @@ import BookingsMentee from './pages/bookings/BookingsMentee'
 import BookingsMentor from './pages/bookings/BookingsMentor.jsx'
 import Mentors from './pages/mentors/Mentors'
 import MentorProfile from './pages/mentors/MentorProfile'
+import ResourcesMentee from './pages/resources/ResourcesMentee'
+import ResourcesMentor from './pages/resources/ResourcesMentor'
 
 function App() {
   const { user } = useUserStore()
@@ -50,7 +50,11 @@ function App() {
           path="/resources"
           element={
             <PrivatRoute>
-              <Resources />
+              {user?.user_metadata.role === 'mentee' ? (
+                <ResourcesMentee />
+              ) : (
+                <ResourcesMentor />
+              )}
             </PrivatRoute>
           }
         />
