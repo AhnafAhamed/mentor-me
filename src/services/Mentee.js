@@ -13,12 +13,12 @@ export const getMentee = async (id) => {
   return data ? data : error
 }
 
-export const updateMentee = async (id, userData) => {
+export const updateMentee = async ([id, userData]) => {
   console.log({ id, userData })
   const { data, error } = await supabase
     .from('Mentee')
     .update(userData)
     .eq('user_uid', id)
     .select()
-  return data ? data : error
+  return { data, error }
 }

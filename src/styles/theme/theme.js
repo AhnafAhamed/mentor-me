@@ -221,6 +221,16 @@ const THEME = {
           }
         }
       })
+    },
+    Badge: {
+      styles: (theme) => ({
+        root: {
+          padding: '4px 8px'
+        },
+        leftSection: {
+          lineHeight: '1px'
+        }
+      })
     }
   },
   globalStyles: (theme) => ({
