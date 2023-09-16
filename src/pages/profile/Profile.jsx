@@ -54,7 +54,7 @@ const useStyles = createStyles((theme) => ({
 
 const Profile = () => {
   const { user } = useUserStore()
-  const [currentUser, setCurrentUser] = useState(null)
+  const setUser = useUserStore((state) => state.setUser)
   const [opened, { open, close }] = useDisclosure(false)
   const role = user.user_metadata.role
   const {
@@ -69,27 +69,30 @@ const Profile = () => {
       gender: ' ',
       age: 0,
       college: ' ',
-      workPlace: ' ',
+      workplace: ' ',
       interests: [],
       expertise: [],
-      jobTitle: ' ',
+      job_title: ' ',
       experience: 0,
-      image: ''
+      image: '',
+      linkedin: ' ',
+      introduction: '',
+      availability: {}
     }
   })
 
   const { classes } = useStyles()
 
   useEffect(() => {
-    console.log({ updateProfileServiceResponse })
     if (updateProfileServiceResponse) {
+      setUser({ ...user, ...updateProfileServiceResponse[0] })
       close()
       notifications.show({
         title: 'Profile Updated',
         message: 'Your profile has been updated successfully',
         color: 'green'
       })
-      form.reset()
+      form.setValues(updateProfileServiceResponse[0])
     }
   }, [updateProfileServiceResponse])
 
@@ -123,16 +126,20 @@ const Profile = () => {
       const {
         jobTitle,
         experience,
-        workPlace,
+        workplace,
+        job_title,
         expertise,
         user_uid,
         created_at,
         updated_at,
+        availability,
+        linkedin,
+        introduction,
         id,
         ...updatedFormValues
       } = form.values
       await updateProfileService(user.user_uid, updatedFormValues)
-    } else if (user_metadata.role === 'mentor') {
+    } else if (user.user_metadata.role === 'mentor') {
       const {
         college,
         interests,
@@ -142,8 +149,7 @@ const Profile = () => {
         id,
         ...updatedFormValues
       } = form.values
-      const result = await updateMentor(user.user_uid, updatedFormValues)
-      console.log({ result })
+      await updateProfileService(user.user_uid, updatedFormValues)
     }
   }
 
@@ -153,8 +159,8 @@ const Profile = () => {
         const result = await getMentee(user.user_uid)
         form.setValues(result[0])
       } else if (user.user_metadata.role === 'mentor') {
-        const result = await getMentor(user.user_uid)
-        form.setValues(result[0])
+        const result = await getMentor(user.id)
+        form.setValues(result.data[0])
       }
     }
     initUser()
@@ -233,13 +239,13 @@ const Profile = () => {
                   label="WorkPlace"
                   placeholder="WorkPlace"
                   type="text"
-                  {...form.getInputProps('workPlace')}
+                  {...form.getInputProps('workplace')}
                 />
                 <TextInput
                   label="Job Title"
                   placeholder="Job Title"
                   type="text"
-                  {...form.getInputProps('jobTitle')}
+                  {...form.getInputProps('job_title')}
                 />
               </SimpleGrid>
             ) : null}

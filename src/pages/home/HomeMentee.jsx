@@ -28,7 +28,7 @@ const HomeMentee = () => {
             .map((mentor) => (
               <ProfileCard
                 key={mentor.id}
-                id={mentor.user_uid}
+                id={mentor.id}
                 image={mentor.image}
                 name={mentor.first_name + ' ' + mentor.last_name}
                 experience={mentor.experience}
