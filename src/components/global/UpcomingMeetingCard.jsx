@@ -27,31 +27,31 @@ const UpcomingMeetingCard = ({
 }) => {
   const { classes } = useStyles()
   return (
-    <Stack className={classes.card} p={16} spacing={12} maw={300}>
+    <Stack className={classes.card} p={16} spacing={12}>
       <UserInfoCard
         image={image}
         firstName={firstName}
         lastName={lastName}
         title={title}
       />
-      <Flex gap={20}>
+      <Flex gap={20} align="center">
         <IconTime />
         <Text>{dayjs(time).format('DD MMM YYYY hh:mm A')}</Text>
       </Flex>
-      <Flex gap={20}>
+      <Flex gap={20} align="center">
         <IconVideo />
         <Text>Online Meeting</Text>
+        {meetingLink && (
+          <Link to="https://meet.google.com/qqq-anwm-bdt" target="_blank">
+            <PrimaryButton text="Join Meeting" />
+          </Link>
+        )}
       </Flex>
       {showButtons && (
         <Flex gap={10}>
           <PrimaryButton text="Confirm" onClick={confirmClick} />
           <SecondaryButton text="Delete" onClick={deleteClick} />
         </Flex>
-      )}
-      {meetingLink && (
-        <Link to="https://meet.google.com/qqq-anwm-bdt" target="_blank">
-          <PrimaryButton text="Join Meeting" />
-        </Link>
       )}
     </Stack>
   )
