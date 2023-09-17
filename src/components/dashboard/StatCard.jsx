@@ -1,4 +1,4 @@
-import { Box, Chip, Flex, Stack, Text, createStyles } from '@mantine/core'
+import { Box, Flex, Stack, Text, createStyles } from '@mantine/core'
 
 const useStyles = createStyles((theme) => ({
   card: {

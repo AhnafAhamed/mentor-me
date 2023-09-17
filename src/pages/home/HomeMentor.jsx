@@ -1,9 +1,7 @@
-import { Flex, Grid, Stack, Text } from '@mantine/core'
+import { Flex, Stack, Text } from '@mantine/core'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import UpcomingMeetingCard from '../../components/global/UpcomingMeetingCard'
-import RevenueCard from '../../components/dashboard/RevenueCard'
 import StatCard from '../../components/dashboard/StatCard'
-import IconBank from '../../components/icons/IconBank'
 
 const HomeMentor = () => {
   return (
