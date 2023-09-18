@@ -24,16 +24,24 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-const UserProfileCard = ({ onEditClick }) => {
+const UserProfileCard = ({
+  onEditClick,
+  firstName,
+  lastName,
+  title,
+  skills,
+  avatar
+}) => {
   const theme = useMantineTheme()
   const { classes } = useStyles()
   return (
     <Stack className={classes.wrapper} spacing={24}>
       <Flex justify="space-between">
         <UserInfoCard
-          firstName="Ahnaf"
-          lastName="Ahamed"
-          title="Student at Esoft"
+          firstName={firstName}
+          lastName={lastName}
+          title={title}
+          image={avatar}
         />
         <Badge
           className={classes.badge}
@@ -48,10 +56,11 @@ const UserProfileCard = ({ onEditClick }) => {
       <Stack>
         <Text>Interests:</Text>
         <Flex gap={10} wrap="wrap">
-          <Badge className={classes.badge} size="md">
-            Full Stack Development
-          </Badge>
-          <Badge className={classes.badge}>Product Management</Badge>
+          {skills.map((skill) => (
+            <Badge className={classes.badge} key={skill} size="md">
+              {skill}
+            </Badge>
+          ))}
         </Flex>
       </Stack>
     </Stack>

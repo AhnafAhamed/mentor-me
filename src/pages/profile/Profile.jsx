@@ -24,7 +24,6 @@ import { useDisclosure } from '@mantine/hooks'
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import IconEdit from '../../components/icons/IconEdit'
 import supabase from '../../config/SupabaseClient'
-import dayjs from 'dayjs'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import { notifications } from '@mantine/notifications'
 
@@ -93,6 +92,7 @@ const Profile = () => {
         color: 'green'
       })
       form.setValues(updateProfileServiceResponse[0])
+      //reset updateProfileServiceResponse
     }
   }, [updateProfileServiceResponse])
 
@@ -168,7 +168,18 @@ const Profile = () => {
   return (
     <DashboardLayout title="Profile">
       <Container maw={720} mx="auto" p={0}>
-        <UserProfileCard onEditClick={open} />
+        <UserProfileCard
+          onEditClick={open}
+          firstName={form.values.first_name}
+          lastName={form.values.last_name}
+          title={
+            role === 'mentee' ? form.values.college : form.values.workplace
+          }
+          skills={
+            role === 'mentee' ? form.values.interests : form.values.expertise
+          }
+          avatar={form.values.image}
+        />
       </Container>
       <Popup title="Edit Profile" isOpen={opened} isClosed={close}>
         <form onSubmit={submitForm}>
