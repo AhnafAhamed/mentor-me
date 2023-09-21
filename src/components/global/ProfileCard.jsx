@@ -29,6 +29,21 @@ const useStyles = createStyles((theme) => ({
   content: {
     width: '100%',
     padding: '0px 12px 12px'
+  },
+  fee: {
+    position: 'absolute',
+    top: '12px',
+    right: '12px',
+    backgroundColor: '#fff',
+    color: theme.colors.darkBlack[0],
+    borderRadius: '12px',
+    padding: '4px 8px',
+    fontSize: '12px'
+  },
+  feeIcon: {
+    fontSize: '12px',
+    marginRight: '4px',
+    marginBottom: '3px'
   }
 }))
 
@@ -39,6 +54,7 @@ const ProfileCard = ({
   rating,
   image,
   company,
+  fee,
   id
 }) => {
   const { classes } = useStyles()
@@ -79,6 +95,9 @@ const ProfileCard = ({
           </Stack>
           <PrimaryButton text="View Profile" onClick={viewProfile} />
         </Stack>
+        <Flex className={classes.fee} justify="center" align="center">
+          <span className={classes.feeIcon}>💵</span> LKR {fee}/= Session
+        </Flex>
       </Overlay>
     </Box>
   )

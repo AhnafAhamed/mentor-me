@@ -27,6 +27,7 @@ import { addBooking } from '../../services/Booking'
 import { notifications } from '@mantine/notifications'
 import useReview from '../../hooks/useReview'
 import ReviewCard from '../../components/global/ReviewCard'
+import { MD5 } from 'crypto-js'
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -52,6 +53,20 @@ const useStyles = createStyles((theme) => ({
   timeSlotsDisabled: {
     opacity: 0.5,
     pointerEvents: 'none'
+  },
+  fee: {
+    backgroundColor: theme.colors.lightPurple[0],
+    color: theme.colors.darkBlack[0],
+    borderRadius: '12px',
+    padding: '8px',
+    fontSize: '14px',
+    fontWeight: 600,
+    width: 'max-content'
+  },
+  feeIcon: {
+    fontSize: '12px',
+    marginRight: '4px',
+    marginBottom: '2px'
   }
 }))
 
@@ -67,6 +82,7 @@ const MentorProfile = () => {
   const [selectedSlot, setSelectedSlot] = useState(null)
   const [selectedSlotId, setSelectedSlotId] = useState(null)
   const [isMentorAvailable, setIsMentorAvailable] = useState(false)
+  const [payhereHash, setPayhereHash] = useState('')
   const {
     callService: addBookingService,
     loading: loadingBookingData,
@@ -86,6 +102,86 @@ const MentorProfile = () => {
     setSelectedSlot(selectedDateTime)
   }
 
+  const payment = {
+    sandbox: true,
+    merchant_id: '1223815', // Replace your Merchant ID
+    return_url: 'http://localhost:5173/', // Important
+    cancel_url: 'http://localhost:5173/', // Important
+    notify_url: 'http://localhost:5173/',
+    order_id: 'ItemNo12345',
+    items: `Mentorship Session with`,
+    amount: '2500',
+    currency: 'LKR',
+    hash: '', // *Replace with generated hash retrieved from backend
+    first_name: 'Ahnaf',
+    last_name: 'Ahamed',
+    email: 'samanp@gmail.com',
+    phone: '0771234567',
+    address: 'No.1, Galle Road',
+    city: 'Colombo',
+    country: 'Sri Lanka',
+    delivery_address: 'No. 46, Galle road, Kalutara South',
+    delivery_city: 'Kalutara',
+    delivery_country: 'Sri Lanka',
+    custom_1: '',
+    custom_2: ''
+  }
+
+  useEffect(() => {
+    // Calculate the MD5 hash
+    let hashedSecret = MD5(
+      'MjI1MTIxOTkwMjM1MjQ4MDk1NjQxMjIzNTcyNDE0MDYyOTM4MzU3'
+    )
+      .toString()
+      .toUpperCase()
+    let amountFormated = parseFloat(payment.amount)
+      .toLocaleString('en-us', { minimumFractionDigits: 2 })
+      .replaceAll(',', '')
+    let currency = 'LKR'
+    let hash = MD5(
+      payment.merchant_id +
+        payment.order_id +
+        amountFormated +
+        currency +
+        hashedSecret
+    )
+      .toString()
+      .toUpperCase()
+    setPayhereHash(hash)
+
+    payhere.onCompleted = async function onCompleted(orderId) {
+      console.log('Payment completed. OrderID:' + orderId)
+      console.log(mentor[0])
+      await addBookingService({
+        meeting_time: selectedSlot,
+        booked_mentor: mentor[0].user_uid,
+        booked_mentor_id: mentor[0].id,
+        booked_by: user.user_uid,
+        booked_by_id: user.id,
+        meeting_status: 'pending',
+        payment_status: 'paid'
+      })
+
+      if (bookingData) {
+        notifications.show({
+          title: 'Booking Sent for Approval',
+          color: 'green'
+        })
+      }
+      // Note: validate the payment and show success or failure page to the customer
+    }
+    payhere.onDismissed = function onDismissed() {
+      // Note: Prompt user to pay again or show an error page
+      console.log('Payment dismissed')
+    }
+
+    // Error occurred
+    payhere.onError = function onError(error) {
+      // Note: show an error page
+      console.log('Error:' + error)
+    }
+  }, [])
+
   useEffect(() => {
     if (!mentor) return
     if (
@@ -99,22 +195,12 @@ const MentorProfile = () => {
   }, [mentor])
 
   const confirmBooking = async () => {
-    await addBookingService({
-      meeting_time: selectedSlot,
-      booked_mentor: mentor[0].user_uid,
-      booked_mentor_id: mentor[0].id,
-      booked_by: user.user_uid,
-      booked_by_id: user.id,
-      meeting_status: 'pending',
-      payment_status: 'unpaid'
-    })
+    //visa - 4916217501611292
+    payment.hash = payhereHash
 
-    if (bookingData) {
-      notifications.show({
-        title: 'Booking Sent for Approval',
-        color: 'green'
-      })
-    }
+    payhere.startPayment(payment)
+
+    return
   }
 
   const excludedDates = (date) => {
@@ -142,15 +228,17 @@ const MentorProfile = () => {
           size={80}
         />
       </Box>
-      <Stack mt={80} mb={32}>
-        <Title mb={8}>
-          {mentor[0]?.first_name + ' ' + mentor[0]?.last_name}
-        </Title>
+      <Stack mt={80} spacing={8} mb={32}>
+        <Title>{mentor[0]?.first_name + ' ' + mentor[0]?.last_name}</Title>
         <Flex>
           <Text size="md">
             {mentor[0]?.job_title} at{' '}
             <span className={classes.workplace}> {mentor[0]?.workplace}</span>
           </Text>
+        </Flex>
+        <Flex className={classes.fee} align="center">
+          <span className={classes.feeIcon}>💵</span> LKR {mentor[0]?.fee}/=
+          Session
         </Flex>
       </Stack>
       <Tabs
