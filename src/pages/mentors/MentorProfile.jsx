@@ -82,6 +82,7 @@ const MentorProfile = () => {
   const [selectedSlot, setSelectedSlot] = useState(null)
   const [selectedSlotId, setSelectedSlotId] = useState(null)
   const [isMentorAvailable, setIsMentorAvailable] = useState(false)
+  const [isBookingConfirmed, setIsBookingConfirmed] = useState(false)
   const [payhereHash, setPayhereHash] = useState('')
   const {
     callService: addBookingService,
@@ -127,6 +128,35 @@ const MentorProfile = () => {
     custom_2: ''
   }
 
+  const confirmPaidBooking = async () => {
+    console.log(mentor[0])
+    await addBookingService({
+      meeting_time: selectedSlot,
+      booked_mentor: mentor[0].user_uid,
+      booked_mentor_id: mentor[0].id,
+      booked_by: user.user_uid,
+      booked_by_id: user.id,
+      meeting_status: 'pending',
+      payment_status: 'paid'
+    })
+  }
+
+  useEffect(() => {
+    if (isBookingConfirmed) {
+      confirmPaidBooking()
+      setIsBookingConfirmed(false)
+    }
+  }, [isBookingConfirmed])
+
+  useEffect(() => {
+    if (bookingData) {
+      notifications.show({
+        title: 'Booking Sent for Approval',
+        color: 'green'
+      })
+    }
+  }, [bookingData])
+
   useEffect(() => {
     // Calculate the MD5 hash
     let hashedSecret = MD5(
@@ -149,25 +179,11 @@ const MentorProfile = () => {
       .toUpperCase()
     setPayhereHash(hash)
 
-    payhere.onCompleted = async function onCompleted(orderId) {
+    payhere.onCompleted = function onCompleted(orderId) {
       console.log('Payment completed. OrderID:' + orderId)
-      console.log(mentor[0])
-      await addBookingService({
-        meeting_time: selectedSlot,
-        booked_mentor: mentor[0].user_uid,
-        booked_mentor_id: mentor[0].id,
-        booked_by: user.user_uid,
-        booked_by_id: user.id,
-        meeting_status: 'pending',
-        payment_status: 'paid'
-      })
 
-      if (bookingData) {
-        notifications.show({
-          title: 'Booking Sent for Approval',
-          color: 'green'
-        })
-      }
+      setIsBookingConfirmed(true)
+
       // Note: validate the payment and show success or failure page to the customer
     }
     payhere.onDismissed = function onDismissed() {
