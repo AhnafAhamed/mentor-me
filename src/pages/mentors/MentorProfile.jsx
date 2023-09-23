@@ -18,7 +18,7 @@ import PrimaryButton from '../../components/global/PrimaryButton'
 import { DatePicker } from '@mantine/dates'
 import useUserStore from '../../store/userStore'
 import useSupabase from '../../hooks/useSupabase'
-import { getMentor } from '../../services/Mentor'
+import { getMentor, updateMentor } from '../../services/Mentor'
 import CustomLoader from '../../components/global/CustomLoader'
 import time from './../../data/time.json'
 import TimeSlot from '../../components/global/TimeSlot'
@@ -89,6 +89,12 @@ const MentorProfile = () => {
     loading: loadingBookingData,
     data: bookingData
   } = useSuapbaseWithCallback(addBooking)
+  const {
+    callService: updateRevenueService,
+    loading: loadingRevenueData,
+    data: updatedMentorData,
+    error
+  } = useSuapbaseWithCallback(updateMentor)
   const { mentorReviews } = useReview(userId)
 
   const currentDate = new Date()
@@ -138,6 +144,10 @@ const MentorProfile = () => {
       booked_by_id: user.id,
       meeting_status: 'pending',
       payment_status: 'paid'
+    })
+
+    await updateRevenueService(mentor[0].user_uid, {
+      revenue: mentor[0].revenue + parseInt(mentor[0].fee)
     })
   }
 

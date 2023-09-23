@@ -53,7 +53,8 @@ const BookingsMentor = () => {
     confirmedBookings,
     pendingBookings,
     completedBookings,
-    getNewPendingBookings
+    getNewPendingBookings,
+    getNewConfirmedBookings
   } = useMentorBooking()
 
   const { mentorReviews } = useReview(user.id)
@@ -88,6 +89,7 @@ const BookingsMentor = () => {
   const confirmBooking = async () => {
     await updateBookingService(selectedBooking, 'confirmed', link)
     setIsBookingConfirmed(true)
+    getNewConfirmedBookings()
   }
 
   const openConfirmPopup = (id) => {
