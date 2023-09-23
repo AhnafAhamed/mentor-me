@@ -42,8 +42,11 @@ const UpcomingMeetingCard = ({
         <IconVideo />
         <Text>Online Meeting</Text>
         {meetingLink && (
-          <Link to="https://meet.google.com/qqq-anwm-bdt" target="_blank">
-            <PrimaryButton text="Join Meeting" />
+          <Link to={meetingLink} target="_blank">
+            <PrimaryButton
+              disabled={new Date() < new Date(time)}
+              text="Join Meeting"
+            />
           </Link>
         )}
       </Flex>

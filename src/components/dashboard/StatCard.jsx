@@ -2,6 +2,7 @@ import { Box, Flex, Stack, Text, createStyles } from '@mantine/core'
 
 const useStyles = createStyles((theme) => ({
   card: {
+    flex: '1',
     borderRadius: '12px',
     backgroundColor: 'transparent',
     border: '1px solid #EAEAEA',
@@ -52,7 +53,7 @@ const StatCard = ({ icon, title, stat, change, isCurrency = true }) => {
             {title}
           </Text>
         </Flex>
-        <Box className={classes.change}>+ 10%</Box>
+        {/* <Box className={classes.change}>+ 10%</Box> */}
       </Flex>
       <Stack spacing={0}>
         {isCurrency && <Box className={classes.currency}>LKR</Box>}
