@@ -1,7 +1,7 @@
 import { Flex, useMantineTheme } from '@mantine/core'
 import IconStar from '../icons/IconStar'
 
-const RatingStrip = ({ rating }) => {
+const RatingStrip = ({ rating, getRating, isEditable }) => {
   const theme = useMantineTheme()
 
   const getStarColor = (index) => {
@@ -12,12 +12,22 @@ const RatingStrip = ({ rating }) => {
     }
   }
 
+  const handleStarClick = (rating) => {
+    if (!isEditable) return
+    getRating(rating)
+  }
+
   return (
     <Flex gap={4}>
       {Array(5)
         .fill(null)
         .map((_, index) => (
-          <IconStar key={index} color={getStarColor(index)} />
+          <IconStar
+            key={index}
+            color={getStarColor(index)}
+            isEditable={isEditable}
+            handleClick={() => handleStarClick(index)}
+          />
         ))}
     </Flex>
   )

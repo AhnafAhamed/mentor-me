@@ -15,3 +15,13 @@ export const getMentorReviews = async (id) => {
 
   return { data, error }
 }
+
+export const addReview = async (review) => {
+  console.log(review)
+  const { data, error } = await supabase
+    .from('reviews')
+    .insert(review[0])
+    .select()
+
+  return { data, error }
+}

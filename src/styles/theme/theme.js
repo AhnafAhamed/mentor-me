@@ -130,6 +130,30 @@ const THEME = {
         }
       })
     },
+    Textarea: {
+      styles: (theme, params) => ({
+        input: {
+          fontSize: theme.fontSizes.md,
+          padding: '16px',
+          borderRadius: '12px',
+          lineHeight: 1,
+          border: `1px solid ${theme.colors.accentGray[0]}`,
+          '&:focus': {
+            border: `2px solid ${theme.colors.darkBlack[0]}`
+          },
+          '&[data-invalid=true]:focus': {
+            borderColor: 'unset'
+          }
+        },
+        label: {
+          fontSize: theme.fontSizes.md,
+          marginBottom: '8px'
+        },
+        error: {
+          textAlign: 'center'
+        }
+      })
+    },
     Tabs: {
       styles: (theme, params) => ({
         tab: {

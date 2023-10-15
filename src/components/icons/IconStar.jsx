@@ -1,8 +1,22 @@
-const IconStar = ({ color }) => {
+import { createStyles } from '@mantine/core'
+
+const useStyles = createStyles((theme) => ({
+  icon: {
+    '&:hover': {
+      opacity: 0.6,
+      cursor: 'pointer'
+    }
+  }
+}))
+
+const IconStar = ({ color, size = '24', handleClick, isEditable }) => {
+  const { classes } = useStyles()
   return (
     <svg
-      width="16"
-      height="16"
+      className={isEditable ? classes.icon : null}
+      onClick={handleClick}
+      width={size}
+      height={size}
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

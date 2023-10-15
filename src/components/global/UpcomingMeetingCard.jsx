@@ -1,4 +1,4 @@
-import { Button, Flex, Stack, Text, createStyles } from '@mantine/core'
+import { Box, Button, Flex, Stack, Text, createStyles } from '@mantine/core'
 import UserInfoCard from './UserInfoCard'
 import IconTime from '../icons/IconTime'
 import IconVideo from '../icons/IconVideo'
@@ -23,7 +23,9 @@ const UpcomingMeetingCard = ({
   showButtons,
   confirmClick,
   deleteClick,
-  meetingLink
+  ratingClick,
+  meetingLink,
+  isMeetingDone = false
 }) => {
   const { classes } = useStyles()
   return (
@@ -49,6 +51,12 @@ const UpcomingMeetingCard = ({
             />
           </Link>
         )}
+        {isMeetingDone && (
+          <Box>
+            <PrimaryButton onClick={ratingClick} text="Rate Mentor" />
+          </Box>
+        )}
+        {}
       </Flex>
       {showButtons && (
         <Flex gap={10}>
