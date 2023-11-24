@@ -10,7 +10,7 @@ export const signUp = async (formData) => {
       }
     }
   })
-  console.log({ data, formData })
+
   if (data && formData.role === 'mentee') {
     const { menteeData } = await supabase
       .from('Mentee')
@@ -26,7 +26,6 @@ export const signUp = async (formData) => {
 
     if (menteeData) console.log({ menteeData })
   } else if (data && formData.role === 'mentor') {
-    console.log({ id: data.user.id })
     const { mentorData } = await supabase
       .from('Mentor')
       .insert({
