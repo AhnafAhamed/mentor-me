@@ -11,6 +11,10 @@ export const signUp = async (formData) => {
     }
   })
 
+  if (error) {
+    return error
+  }
+
   if (data && formData.role === 'mentee') {
     const { menteeData } = await supabase
       .from('Mentee')
@@ -52,8 +56,18 @@ export const signIn = async (formData) => {
     password: formData.password
   })
 
-  if (error && error.status === 400) {
-    return 'invalid credentials'
+  if (
+    error &&
+    error.status === 400 &&
+    error.message === 'Invalid login credentials'
+  ) {
+    return error.message
+  } else if (
+    error &&
+    error.status === 400 &&
+    error.message === 'Email not confirmed'
+  ) {
+    return error.message
   }
 
   if (data) {

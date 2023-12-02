@@ -49,11 +49,18 @@ const SigIn = () => {
     if (!form.isValid()) return
     setLoading(true)
     const result = await signIn(form.values)
-    if (result === 'invalid credentials') {
+    if (result === 'Invalid login credentials') {
       setLoading(false)
       notifications.show({
         title: 'Invalid Credentials',
         message: 'Please check your email and password',
+        color: 'red'
+      })
+    } else if (result === 'Email not confirmed') {
+      setLoading(false)
+      notifications.show({
+        title: 'Email not confirmed',
+        message: 'Please confirm your email',
         color: 'red'
       })
     }
