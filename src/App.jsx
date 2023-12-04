@@ -18,6 +18,7 @@ import ResourcesMentee from './pages/resources/ResourcesMentee'
 import ResourcesMentor from './pages/resources/ResourcesMentor'
 import ForgotPassword from './pages/auth/ForgotPassword.jsx'
 import ResetPassword from './pages/auth/ResetPassword.jsx'
+import Stats from './pages/stats/Stats.jsx'
 
 function App() {
   const { user } = useUserStore()
@@ -95,6 +96,14 @@ function App() {
           element={
             <PrivatRoute>
               <MentorProfile />
+            </PrivatRoute>
+          }
+        />
+        <Route
+          path="/stats"
+          element={
+            <PrivatRoute>
+              <Stats />
             </PrivatRoute>
           }
         />
