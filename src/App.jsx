@@ -19,6 +19,8 @@ import ResourcesMentor from './pages/resources/ResourcesMentor'
 import ForgotPassword from './pages/auth/ForgotPassword.jsx'
 import ResetPassword from './pages/auth/ResetPassword.jsx'
 import Stats from './pages/stats/Stats.jsx'
+import MessagesMentee from './pages/messages/MessagesMentee.jsx'
+import MessagesMentor from './pages/messages/MessagesMentor.jsx'
 
 function App() {
   const { user } = useUserStore()
@@ -47,7 +49,11 @@ function App() {
           path="/messages"
           element={
             <PrivatRoute>
-              <Messages />
+              {user?.user_metadata.role === 'mentee' ? (
+                <MessagesMentee />
+              ) : (
+                <MessagesMentor />
+              )}
             </PrivatRoute>
           }
         />
