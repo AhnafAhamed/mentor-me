@@ -1,13 +1,24 @@
 import { Avatar, Group, Text } from '@mantine/core'
+import { useEffect } from 'react'
 
-const ChannelList = () => {
+const ChannelList = ({ channels }) => {
+  useEffect(() => {
+    console.log('channels', channels)
+  }, [channels])
   return (
-    <Group gap="sm">
-      <Avatar size={26} src="" radius={26} />
-      <Text size="sm" fw={500}>
-        User Name
-      </Text>
-    </Group>
+    <>
+      {channels?.map((channel) => {
+        return (
+          <Group key={channel.id}>
+            <Avatar size="lg" src="" alt="" />
+            <Text>{channel.id}</Text>
+          </Group>
+        )
+      })}
+      {channels?.length === 0 && (
+        <Text>You have no messages. Start a conversation!</Text>
+      )}
+    </>
   )
 }
 
