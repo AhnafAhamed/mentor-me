@@ -14,6 +14,7 @@ import PrimaryButton from '../global/PrimaryButton'
 import { useEffect, useState } from 'react'
 import { signUp } from '../../services/Auth'
 import IconDone from '../icons/IconDone'
+import { notifications } from '@mantine/notifications'
 
 const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
   const theme = useMantineTheme()
@@ -47,7 +48,11 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
       },
       firstName: (value) => (value ? null : 'First Name is required'),
       lastName: (value) => (value ? null : 'Last Name is required'),
-      age: (value) => (value ? null : 'Age is required'),
+      age: (value) => {
+        if (!value) return 'Age is required'
+        if (value <= 16) return 'Age must be greater than 16'
+        return null
+      },
       gender: (value) => (value ? null : 'Age is required'),
       college: (value) => (value ? null : 'College is required'),
       workPlace: (value) => (value ? null : 'WorkPlace is required'),
@@ -76,6 +81,15 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
     e.preventDefault()
     setLoading(true)
     const result = await signUp(form.values)
+
+    if (result === 'User already registered') {
+      setLoading(false)
+      notifications.show({
+        title: 'Email already exists',
+        message: 'Please try again with a different email',
+        color: 'red'
+      })
+    }
     if (result.user) {
       setStatus(true)
       setLoading(false)
@@ -225,7 +239,7 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
                 <TextInput
                   label="Years of Experience"
                   placeholder="Years of Experience"
-                  type="text"
+                  type="number"
                   {...form.getInputProps('experience')}
                 />
                 <MultiSelect

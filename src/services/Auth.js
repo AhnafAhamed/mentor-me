@@ -12,7 +12,7 @@ export const signUp = async (formData) => {
   })
 
   if (error) {
-    return error
+    return error.message
   }
 
   if (data && formData.role === 'mentee') {
@@ -27,8 +27,6 @@ export const signUp = async (formData) => {
         interests: formData.interests
       })
       .select()
-
-    if (menteeData) console.log({ menteeData })
   } else if (data && formData.role === 'mentor') {
     const { mentorData } = await supabase
       .from('Mentor')
@@ -44,9 +42,7 @@ export const signUp = async (formData) => {
         experience: formData.experience
       })
       .select()
-    if (mentorData) console.log({ mentorData })
   }
-
   return data ? data : error
 }
 
