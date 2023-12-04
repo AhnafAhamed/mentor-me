@@ -116,7 +116,7 @@ const SigIn = () => {
           </form>
 
           <Stack spacing={32}>
-            <Link to="/forget-password">
+            <Link to="/forgot-password">
               <Text weight={600} td="underline">
                 Forget Password
               </Text>

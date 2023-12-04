@@ -16,6 +16,8 @@ import Mentors from './pages/mentors/Mentors'
 import MentorProfile from './pages/mentors/MentorProfile'
 import ResourcesMentee from './pages/resources/ResourcesMentee'
 import ResourcesMentor from './pages/resources/ResourcesMentor'
+import ForgotPassword from './pages/auth/ForgotPassword.jsx'
+import ResetPassword from './pages/auth/ResetPassword.jsx'
 
 function App() {
   const { user } = useUserStore()
@@ -26,6 +28,8 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/logout" element={<LogOut />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           path="/"
           element={
