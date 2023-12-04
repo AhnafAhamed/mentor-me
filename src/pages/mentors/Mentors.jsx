@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import { Flex, TextInput } from '@mantine/core'
 import ProfileCard from '../../components/global/ProfileCard'
@@ -10,6 +10,12 @@ import CustomLoader from '../../components/global/CustomLoader'
 const Mentors = () => {
   const { data: mentors } = useSupabase(getMentors)
   const [searchTerm, setSearchTerm] = useState('')
+
+  useEffect(() => {
+    if (mentors) {
+      console.log(mentors)
+    }
+  }, [mentors])
 
   return (
     <DashboardLayout title="Mentors">
@@ -37,6 +43,7 @@ const Mentors = () => {
                 experience={mentor.experience}
                 jobTitle={mentor.job_title}
                 rating={Math.floor(Math.random() * 5) + 1}
+                userId={mentor.user_uid}
               />
             ))
         ) : (

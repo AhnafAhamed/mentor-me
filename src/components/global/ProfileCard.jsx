@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Flex,
   Image,
@@ -12,6 +13,8 @@ import IconStarFilled from '../icons/IconStarFilled'
 import PrimaryButton from './PrimaryButton'
 import PlaceHolderImage from '../../assets/images/profile-1.jpg'
 import { useNavigate } from 'react-router-dom'
+import IconMessage from '../icons/IconMessage'
+import useUserStore from '../../store/userStore'
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -44,6 +47,12 @@ const useStyles = createStyles((theme) => ({
     fontSize: '12px',
     marginRight: '4px',
     marginBottom: '3px'
+  },
+  message: {
+    position: 'absolute',
+    top: '48px',
+    right: '12px',
+    cursor: 'pointer'
   }
 }))
 
@@ -55,10 +64,12 @@ const ProfileCard = ({
   image,
   company,
   fee,
+  userId,
   id
 }) => {
   const { classes } = useStyles()
   const navigate = useNavigate()
+  const { user } = useUserStore()
 
   const viewProfile = () => {
     const currentPath = window.location.pathname
@@ -69,6 +80,7 @@ const ProfileCard = ({
       navigate(`/mentors/${id}`)
     }
   }
+
   return (
     <Box className={classes.card}>
       <Image src={image ? image : PlaceHolderImage} radius={16} height={300} />
@@ -77,6 +89,7 @@ const ProfileCard = ({
           <Text size="lg" weight={500} mb={8}>
             {name}
           </Text>
+
           <Stack spacing={4} mb={20}>
             <Flex gap={4} align="flex-start">
               <IconBriefCase />
@@ -93,11 +106,28 @@ const ProfileCard = ({
               </Flex>
             </Flex>
           </Stack>
-          <PrimaryButton text="View Profile" onClick={viewProfile} />
+
+          <PrimaryButton text="View Profile" onClick={viewProfile} size="sm" />
         </Stack>
         <Flex className={classes.fee} justify="center" align="center">
           <span className={classes.feeIcon}>💵</span> LKR {fee}/= Session
         </Flex>
+        <Badge
+          size="md"
+          color="green"
+          radius="xl"
+          leftSection={<IconMessage size={16} />}
+          w={100}
+          mb={12}
+          onClick={() =>
+            navigate(`/messages/${user.user_uid}`, {
+              state: { mentor: userId }
+            })
+          }
+          className={classes.message}
+        >
+          Message
+        </Badge>
       </Overlay>
     </Box>
   )

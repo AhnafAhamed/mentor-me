@@ -46,7 +46,7 @@ function App() {
           }
         />
         <Route
-          path="/messages"
+          path="/messages/:id"
           element={
             <PrivatRoute>
               {user?.user_metadata.role === 'mentee' ? (

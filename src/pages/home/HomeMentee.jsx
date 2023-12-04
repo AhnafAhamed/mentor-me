@@ -36,6 +36,7 @@ const HomeMentee = () => {
                 rating={Math.floor(Math.random() * 5) + 1}
                 company={mentor.workplace}
                 fee={mentor.fee}
+                userId={mentor.user_uid}
               />
             ))
         ) : (
