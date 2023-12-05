@@ -18,6 +18,7 @@ const MessagesMentee = () => {
 
   const [showChat, setShowChat] = useState(false)
   const [channelId, setChannelId] = useState(null)
+  const [activeChannel, setActiveChannel] = useState(null)
 
   const { data: channelsWithMentee, loading: channelsWithMenteeLoading } =
     useSupabase(getChannelsByMenteeId.bind(this, params?.id))
@@ -45,17 +46,21 @@ const MessagesMentee = () => {
     if (createNewChannelData) {
       setShowChat(true)
       setChannelId(createNewChannelData[0].id)
+      setActiveChannel(createNewChannelData[0])
     }
   }, [createNewChannelData])
 
-  const handleChannelClick = (channelId) => () => {
+  const handleChannelClick = (channel) => () => {
     setShowChat(true)
-    setChannelId(channelId)
+    setChannelId(channel.id)
+    setActiveChannel(channel)
   }
 
   return (
     <DashboardLayout title="Chats" className="hello">
-      {showChat && channelId && <Chat channel={channelId} />}
+      {showChat && channelId && (
+        <Chat channel={activeChannel} isMentorView={false} />
+      )}
       {!showChat && channelsWithMentee && (
         <ChannelList
           channels={channelsWithMentee}

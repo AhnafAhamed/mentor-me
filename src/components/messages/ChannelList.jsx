@@ -31,7 +31,7 @@ const ChannelList = ({ channels, onChannelClick }) => {
             key={channel.id}
             mb={12}
             className={classes.item}
-            onClick={onChannelClick(channel.id)}
+            onClick={onChannelClick(channel)}
           >
             <Avatar size="md" src={channel.Mentor.image} radius="50%" alt="" />
             <Text>

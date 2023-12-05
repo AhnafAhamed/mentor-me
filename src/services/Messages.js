@@ -1,20 +1,20 @@
 import supabase from '../config/SupabaseClient'
 
-export const getMentors = async () => {
-  const { data, error } = await supabase.from('Mentor').select()
-  return { data, error }
-}
-
-export const getMentor = async (id) => {
-  const { data, error } = await supabase.from('Mentor').select().eq('id', id)
-  return { data, error }
-}
-
-export const updateMentor = async ([id, userData]) => {
+export const getMessages = async (channelId) => {
   const { data, error } = await supabase
-    .from('Mentor')
-    .update(userData)
-    .eq('user_uid', id)
+    .from('messages')
     .select()
+    .eq('channel', channelId)
+  return { data, error }
+}
+
+export const addMessage = async ([channelId, message, isMentor]) => {
+  const { data, error } = await supabase
+    .from('messages')
+    .insert({ channel: channelId, message: message, is_mentor: isMentor })
+    .select('*')
+
+  console.log({ data })
+
   return { data, error }
 }
