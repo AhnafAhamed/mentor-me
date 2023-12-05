@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react'
 import { addMessage, getMessages } from '../../services/Messages'
 import useSupabase from '../../hooks/useSupabase'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
+import supabase from '../../config/SupabaseClient'
 
 // isMentorView is a boolean that determines whether the chat is being viewed by a mentor or mentee
 
@@ -45,7 +46,7 @@ const Chat = ({ channel, isMentorView }) => {
   const [user, setUser] = useState(null)
   const [currentOwner, setCurrentOwner] = useState(null)
   const [text, setText] = useState('')
-  const theme = useMantineTheme()
+  const [newMessages, setNewMessages] = useState([])
 
   const { classes } = useStyles()
 
@@ -63,6 +64,12 @@ const Chat = ({ channel, isMentorView }) => {
     setUser(isMentorView ? channel.Mentee : channel.Mentor)
   }, [channel])
 
+  useEffect(() => {
+    if (messages) {
+      setNewMessages(messages)
+    }
+  }, [messages])
+
   const sendMessage = async () => {
     if (!text) return
     await createNewMessage(channel.id, text, isMentorView)
@@ -70,8 +77,22 @@ const Chat = ({ channel, isMentorView }) => {
   }
 
   useEffect(() => {
-    console.log(messages)
-  }, [messages])
+    const channels = supabase
+      .channel('custom-all-channel')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'messages' },
+        (payload) => {
+          console.log('Change received!', payload)
+          setNewMessages((prev) => [...prev, payload.new])
+        }
+      )
+      .subscribe()
+
+    return () => {
+      channels.unsubscribe()
+    }
+  }, [])
 
   return (
     <div className={classes.chat}>
@@ -82,7 +103,7 @@ const Chat = ({ channel, isMentorView }) => {
         </Text>
       </Flex>
       <ScrollArea mih="500px">
-        {messages?.map((message, index) => (
+        {newMessages?.map((message, index) => (
           <Flex
             key={index}
             className={classes.message}

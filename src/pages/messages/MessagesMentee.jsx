@@ -10,6 +10,7 @@ import {
 import ChannelList from '../../components/messages/ChannelList'
 import Chat from '../../components/messages/Chat'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
+import supabase from '../../config/SupabaseClient'
 
 const MessagesMentee = () => {
   const params = useParams()
