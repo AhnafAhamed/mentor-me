@@ -14,7 +14,7 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-const ChannelList = ({ channels, onChannelClick }) => {
+const ChannelList = ({ channels, onChannelClick, isMentorView }) => {
   const { user } = useUserStore()
   const { classes } = useStyles()
 
@@ -33,9 +33,20 @@ const ChannelList = ({ channels, onChannelClick }) => {
             className={classes.item}
             onClick={onChannelClick(channel)}
           >
-            <Avatar size="md" src={channel.Mentor.image} radius="50%" alt="" />
+            <Avatar
+              size="md"
+              src={
+                isMentorView ? channel?.Mentee?.image : channel?.Mentor?.image
+              }
+              radius="50%"
+              alt=""
+            />
             <Text>
-              {channel.Mentor.first_name + ' ' + channel.Mentor.last_name}
+              {isMentorView
+                ? channel?.Mentee?.first_name + ' ' + channel?.Mentee?.last_name
+                : channel?.Mentor?.first_name +
+                  ' ' +
+                  channel?.Mentor?.last_name}
             </Text>
           </Group>
         )

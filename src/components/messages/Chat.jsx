@@ -51,7 +51,7 @@ const Chat = ({ channel, isMentorView }) => {
   const [newMessages, setNewMessages] = useState([])
 
   const { user } = useUserStore()
-
+  const theme = useMantineTheme()
   const { classes } = useStyles()
 
   const { data: messages, loading: messagesLoading } = useSupabase(
@@ -115,7 +115,16 @@ const Chat = ({ channel, isMentorView }) => {
               message.owner === user.user_uid ? 'flex-end' : 'flex-start'
             }
           >
-            <Text className={classes.messageText}>{message?.message}</Text>
+            <Text
+              className={classes.messageText}
+              bg={
+                message.owner === user.user_uid
+                  ? 'purple'
+                  : theme.colors.darkBlack[0]
+              }
+            >
+              {message?.message}
+            </Text>
           </Flex>
         ))}
       </ScrollArea>

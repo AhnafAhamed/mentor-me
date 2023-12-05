@@ -8,7 +8,9 @@ export const getChannels = async () => {
 export const getChannelsByMentorId = async (id) => {
   const { data, error } = await supabase
     .from('channels')
-    .select()
+    .select(
+      '*, Mentee (first_name,last_name,college, image), Mentor (first_name,last_name, workplace, image)'
+    )
     .eq('mentor', id)
 
   return { data, error }

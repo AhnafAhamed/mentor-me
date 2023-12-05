@@ -66,6 +66,7 @@ const MessagesMentee = () => {
         <ChannelList
           channels={channelsWithMentee}
           onChannelClick={handleChannelClick}
+          isMentorView={false}
         />
       )}
     </DashboardLayout>
