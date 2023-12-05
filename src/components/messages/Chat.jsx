@@ -20,10 +20,10 @@ import useUserStore from '../../store/userStore'
 
 const useStyles = createStyles((theme) => ({
   chat: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    // height: '80%',
+    // display: 'flex',
+    // flexDirection: 'column',
+    // justifyContent: 'space-between'
   },
   userBar: {
     padding: theme.spacing.sm,
@@ -106,7 +106,7 @@ const Chat = ({ channel, isMentorView }) => {
           {recepient?.first_name + ' ' + recepient?.last_name}
         </Text>
       </Flex>
-      <ScrollArea mih="500px">
+      <ScrollArea mih="50vh">
         {newMessages?.map((message, index) => (
           <Flex
             key={index}
