@@ -10,6 +10,14 @@ export const getMentor = async (id) => {
   return { data, error }
 }
 
+export const getMentorByUserId = async (id) => {
+  const { data, error } = await supabase
+    .from('Mentor')
+    .select()
+    .eq('user_uid', id)
+  return { data, error }
+}
+
 export const updateMentor = async ([id, userData]) => {
   const { data, error } = await supabase
     .from('Mentor')

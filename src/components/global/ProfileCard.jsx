@@ -120,8 +120,8 @@ const ProfileCard = ({
           w={100}
           mb={12}
           onClick={() =>
-            navigate(`/messages/${user.user_uid}`, {
-              state: { mentor: userId }
+            navigate(`/messages/${user.id}`, {
+              state: { mentor: id }
             })
           }
           className={classes.message}

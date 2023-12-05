@@ -2,7 +2,11 @@ import { useLocation, useParams } from 'react-router-dom'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import { useEffect, useState } from 'react'
 import useSupabase from '../../hooks/useSupabase'
-import { createChannel, getChannelsByMemberId } from '../../services/Channels'
+import {
+  createChannel,
+  getChannelsByMenteeId,
+  getChannelsByMentorId
+} from '../../services/Channels'
 import ChannelList from '../../components/messages/ChannelList'
 import Chat from '../../components/messages/Chat'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
@@ -15,9 +19,11 @@ const MessagesMentee = () => {
   const [showChat, setShowChat] = useState(false)
   const [channelId, setChannelId] = useState(null)
 
-  const { data: channels, loading: channelsLoading } = useSupabase(
-    getChannelsByMemberId.bind(this, state?.mentor || params.id)
-  )
+  const { data: channelsWithMentee, loading: channelsWithMenteeLoading } =
+    useSupabase(getChannelsByMenteeId.bind(this, params?.id))
+
+  const { data: channelsWithMentor, loading: channelsWithMentorLoading } =
+    useSupabase(getChannelsByMentorId.bind(this, state?.mentor))
 
   const {
     callService: createNewChannel,
@@ -26,14 +32,14 @@ const MessagesMentee = () => {
   } = useSuapbaseWithCallback(createChannel)
 
   useEffect(() => {
-    if (state && state?.mentor) {
+    if (state && state?.mentor && channelsWithMentor?.length === 0) {
       const createChannel = async () => {
-        await createNewChannel(state.mentor, params.id)
+        await createNewChannel(state.mentor, parseInt(params.id))
       }
 
       createChannel()
     }
-  }, [params, state])
+  }, [params, state, channelsWithMentor])
 
   useEffect(() => {
     console.log('create new channel data', createNewChannelData)
@@ -44,9 +50,11 @@ const MessagesMentee = () => {
   }, [createNewChannelData])
 
   return (
-    <DashboardLayout title="Messages" className="hello">
+    <DashboardLayout title="Chats" className="hello">
       {showChat && channelId && <Chat channel={channelId} />}
-      {!showChat && channels && <ChannelList channels={channels} />}
+      {!showChat && channelsWithMentee && (
+        <ChannelList channels={channelsWithMentee} />
+      )}
     </DashboardLayout>
   )
 }

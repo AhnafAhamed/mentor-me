@@ -5,11 +5,22 @@ export const getChannels = async () => {
   return { data, error }
 }
 
-export const getChannelsByMemberId = async (memberId) => {
+export const getChannelsByMentorId = async (id) => {
   const { data, error } = await supabase
     .from('channels')
     .select()
-    .contains('members', [memberId])
+    .eq('mentor', id)
+
+  return { data, error }
+}
+
+export const getChannelsByMenteeId = async (id) => {
+  const { data, error } = await supabase
+    .from('channels')
+    .select(
+      '*, Mentee (first_name,last_name,college, image), Mentor (first_name,last_name, workplace, image)'
+    )
+    .eq('mentee', id)
 
   return { data, error }
 }
@@ -18,7 +29,7 @@ export const createChannel = async ([userId1, userId2]) => {
   console.log(userId1, userId2)
   const { data, error } = await supabase
     .from('channels')
-    .insert([{ members: [userId1, userId2] }])
+    .insert({ mentor: userId1, mentee: userId2 })
     .select()
 
   if (error) {

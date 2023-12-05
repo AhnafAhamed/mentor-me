@@ -1,17 +1,22 @@
 import { Avatar, Group, Text } from '@mantine/core'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import useUserStore from '../../store/userStore'
 
 const ChannelList = ({ channels }) => {
+  const { user } = useUserStore()
+
   useEffect(() => {
-    console.log('channels', channels)
+    if (channels) {
+      console.log(channels)
+    }
   }, [channels])
   return (
     <>
       {channels?.map((channel) => {
         return (
           <Group key={channel.id}>
-            <Avatar size="lg" src="" alt="" />
-            <Text>{channel.id}</Text>
+            <Avatar size="lg" src={channel.Mentor.image} alt="" />
+            <Text>{channel.Mentor.first_name + channel.Mentor.last_name}</Text>
           </Group>
         )
       })}

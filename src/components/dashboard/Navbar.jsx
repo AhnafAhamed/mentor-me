@@ -52,7 +52,7 @@ const Navbar = ({ hidden }) => {
           text: 'Stats'
         },
     {
-      link: `/messages/${user?.user_uid}`,
+      link: `/messages/${user?.id}`,
       icon: <IconMessage />,
       text: 'Messages'
     },
