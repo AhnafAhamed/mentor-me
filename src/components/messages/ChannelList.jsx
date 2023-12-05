@@ -14,7 +14,7 @@ const useStyles = createStyles((theme) => ({
   }
 }))
 
-const ChannelList = ({ channels }) => {
+const ChannelList = ({ channels, onChannelClick }) => {
   const { user } = useUserStore()
   const { classes } = useStyles()
 
@@ -27,7 +27,12 @@ const ChannelList = ({ channels }) => {
     <>
       {channels?.map((channel) => {
         return (
-          <Group key={channel.id} mb={12} className={classes.item}>
+          <Group
+            key={channel.id}
+            mb={12}
+            className={classes.item}
+            onClick={onChannelClick(channel.id)}
+          >
             <Avatar size="md" src={channel.Mentor.image} radius="50%" alt="" />
             <Text>
               {channel.Mentor.first_name + ' ' + channel.Mentor.last_name}

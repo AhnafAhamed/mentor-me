@@ -42,18 +42,25 @@ const MessagesMentee = () => {
   }, [params, state, channelsWithMentor])
 
   useEffect(() => {
-    console.log('create new channel data', createNewChannelData)
     if (createNewChannelData) {
       setShowChat(true)
       setChannelId(createNewChannelData[0].id)
     }
   }, [createNewChannelData])
 
+  const handleChannelClick = (channelId) => () => {
+    setShowChat(true)
+    setChannelId(channelId)
+  }
+
   return (
     <DashboardLayout title="Chats" className="hello">
       {showChat && channelId && <Chat channel={channelId} />}
       {!showChat && channelsWithMentee && (
-        <ChannelList channels={channelsWithMentee} />
+        <ChannelList
+          channels={channelsWithMentee}
+          onChannelClick={handleChannelClick}
+        />
       )}
     </DashboardLayout>
   )
