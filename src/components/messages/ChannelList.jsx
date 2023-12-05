@@ -1,9 +1,22 @@
-import { Avatar, Group, Text } from '@mantine/core'
+import { Avatar, Group, Text, createStyles } from '@mantine/core'
 import { useEffect, useState } from 'react'
 import useUserStore from '../../store/userStore'
 
+const useStyles = createStyles((theme) => ({
+  item: {
+    border: `1px solid ${theme.colors.lightPurple[0]}`,
+    borderRadius: theme.radius.md,
+    padding: theme.spacing.xs,
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: theme.colors.lightPurple[0]
+    }
+  }
+}))
+
 const ChannelList = ({ channels }) => {
   const { user } = useUserStore()
+  const { classes } = useStyles()
 
   useEffect(() => {
     if (channels) {
@@ -14,9 +27,11 @@ const ChannelList = ({ channels }) => {
     <>
       {channels?.map((channel) => {
         return (
-          <Group key={channel.id}>
-            <Avatar size="lg" src={channel.Mentor.image} alt="" />
-            <Text>{channel.Mentor.first_name + channel.Mentor.last_name}</Text>
+          <Group key={channel.id} mb={12} className={classes.item}>
+            <Avatar size="md" src={channel.Mentor.image} radius="50%" alt="" />
+            <Text>
+              {channel.Mentor.first_name + ' ' + channel.Mentor.last_name}
+            </Text>
           </Group>
         )
       })}
