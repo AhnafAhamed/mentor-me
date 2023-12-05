@@ -1,4 +1,13 @@
-import { Avatar, Box, Flex, ScrollArea, Text, TextInput } from '@mantine/core'
+import {
+  Avatar,
+  Box,
+  Flex,
+  ScrollArea,
+  Text,
+  TextInput,
+  createStyles,
+  useMantineTheme
+} from '@mantine/core'
 import IconSend from '../icons/IconSend'
 import { useEffect, useState } from 'react'
 import { addMessage, getMessages } from '../../services/Messages'
@@ -7,10 +16,38 @@ import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 
 // isMentorView is a boolean that determines whether the chat is being viewed by a mentor or mentee
 
+const useStyles = createStyles((theme) => ({
+  chat: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  userBar: {
+    padding: theme.spacing.sm,
+    backgroundColor: theme.colors.lightPurple[0],
+    borderRadius: theme.radius.md,
+    columnGap: theme.spacing.sm,
+    alignItems: 'center',
+    marginBottom: theme.spacing.md
+  },
+  message: {
+    padding: '8px' + ' ' + '12px',
+    borderRadius: theme.radius.md,
+    marginBottom: theme.spacing.md,
+    color: '#fff',
+    backgroundColor: theme.colors.purple[0],
+    width: 'fit-content'
+  }
+}))
+
 const Chat = ({ channel, isMentorView }) => {
   const [user, setUser] = useState(null)
   const [currentOwner, setCurrentOwner] = useState(null)
   const [text, setText] = useState('')
+  const theme = useMantineTheme()
+
+  const { classes } = useStyles()
 
   const { data: messages, loading: messagesLoading } = useSupabase(
     getMessages.bind(this, channel?.id)
@@ -37,10 +74,10 @@ const Chat = ({ channel, isMentorView }) => {
   }, [messages])
 
   return (
-    <div className="chat">
-      <Flex>
-        <Avatar size={26} src={user?.image} radius={26} />
-        <Text size="sm" fw={500}>
+    <div className={classes.chat}>
+      <Flex className={classes.userBar}>
+        <Avatar size="md" src={user?.image} radius={26} bgp="cover" />
+        <Text size="md" fw={500}>
           {user?.first_name + ' ' + user?.last_name}
         </Text>
       </Flex>
@@ -48,6 +85,7 @@ const Chat = ({ channel, isMentorView }) => {
         {messages?.map((message, index) => (
           <Flex
             key={index}
+            className={classes.message}
             align={
               message.is_mentor && isMentorView ? 'flex-start' : 'flex-end'
             }
