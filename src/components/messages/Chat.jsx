@@ -14,6 +14,7 @@ import { addMessage, getMessages } from '../../services/Messages'
 import useSupabase from '../../hooks/useSupabase'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import supabase from '../../config/SupabaseClient'
+import useUserStore from '../../store/userStore'
 
 // isMentorView is a boolean that determines whether the chat is being viewed by a mentor or mentee
 
@@ -33,20 +34,23 @@ const useStyles = createStyles((theme) => ({
     marginBottom: theme.spacing.md
   },
   message: {
-    padding: '8px' + ' ' + '12px',
-    borderRadius: theme.radius.md,
-    marginBottom: theme.spacing.md,
+    marginBottom: theme.spacing.md
+  },
+  messageText: {
     color: '#fff',
     backgroundColor: theme.colors.purple[0],
-    width: 'fit-content'
+    padding: '8px' + ' ' + '12px',
+    borderRadius: theme.radius.md
   }
 }))
 
 const Chat = ({ channel, isMentorView }) => {
-  const [user, setUser] = useState(null)
+  const [recepient, setRecipient] = useState(null)
   const [currentOwner, setCurrentOwner] = useState(null)
   const [text, setText] = useState('')
   const [newMessages, setNewMessages] = useState([])
+
+  const { user } = useUserStore()
 
   const { classes } = useStyles()
 
@@ -61,7 +65,7 @@ const Chat = ({ channel, isMentorView }) => {
   } = useSuapbaseWithCallback(addMessage)
 
   useEffect(() => {
-    setUser(isMentorView ? channel.Mentee : channel.Mentor)
+    setRecipient(isMentorView ? channel.Mentee : channel.Mentor)
   }, [channel])
 
   useEffect(() => {
@@ -72,7 +76,7 @@ const Chat = ({ channel, isMentorView }) => {
 
   const sendMessage = async () => {
     if (!text) return
-    await createNewMessage(channel.id, text, isMentorView)
+    await createNewMessage(channel.id, text, user.user_uid)
     setText('')
   }
 
@@ -97,9 +101,9 @@ const Chat = ({ channel, isMentorView }) => {
   return (
     <div className={classes.chat}>
       <Flex className={classes.userBar}>
-        <Avatar size="md" src={user?.image} radius={26} bgp="cover" />
+        <Avatar size="md" src={recepient?.image} radius={26} bgp="cover" />
         <Text size="md" fw={500}>
-          {user?.first_name + ' ' + user?.last_name}
+          {recepient?.first_name + ' ' + recepient?.last_name}
         </Text>
       </Flex>
       <ScrollArea mih="500px">
@@ -107,11 +111,11 @@ const Chat = ({ channel, isMentorView }) => {
           <Flex
             key={index}
             className={classes.message}
-            align={
-              message.is_mentor && isMentorView ? 'flex-start' : 'flex-end'
+            justify={
+              message.owner === user.user_uid ? 'flex-end' : 'flex-start'
             }
           >
-            {message?.message}
+            <Text className={classes.messageText}>{message?.message}</Text>
           </Flex>
         ))}
       </ScrollArea>

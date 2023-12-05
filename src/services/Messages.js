@@ -8,10 +8,10 @@ export const getMessages = async (channelId) => {
   return { data, error }
 }
 
-export const addMessage = async ([channelId, message, isMentor]) => {
+export const addMessage = async ([channelId, message, owner]) => {
   const { data, error } = await supabase
     .from('messages')
-    .insert({ channel: channelId, message: message, is_mentor: isMentor })
+    .insert({ channel: channelId, message: message, owner: owner })
     .select('*')
 
   console.log({ data })
