@@ -63,18 +63,18 @@ const Profile = () => {
   } = useSuapbaseWithCallback(role === 'mentee' ? updateMentee : updateMentor)
   const form = useForm({
     initialValues: {
-      first_name: ' ',
-      last_name: ' ',
-      gender: ' ',
+      first_name: '',
+      last_name: '',
+      gender: '',
       age: 0,
-      college: ' ',
-      workplace: ' ',
+      college: '',
+      workplace: '',
       interests: [],
       expertise: [],
-      job_title: ' ',
+      job_title: '',
       experience: 0,
       image: '',
-      linkedin: ' ',
+      linkedin: '',
       introduction: '',
       availability: {}
     }
@@ -165,6 +165,10 @@ const Profile = () => {
     }
     initUser()
   }, [])
+
+  useEffect(() => {
+    console.log(form.values)
+  }, [form.values])
   return (
     <DashboardLayout title="Profile">
       <Container maw={720} mx="auto" p={0}>
@@ -179,6 +183,9 @@ const Profile = () => {
             role === 'mentee' ? form.values.interests : form.values.expertise
           }
           avatar={form.values.image}
+          experience={form.values.experience}
+          workplace={form.values.workplace}
+          college={form.values.college}
         />
       </Container>
       <Popup title="Edit Profile" isOpen={opened} isClosed={close}>

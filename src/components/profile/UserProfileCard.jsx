@@ -9,6 +9,7 @@ import {
 import UserInfoCard from '../global/UserInfoCard'
 import EditButton from '../global/EditButton'
 import IconEdit from '../icons/IconEdit'
+import useUserStore from '../../store/userStore'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -30,10 +31,17 @@ const UserProfileCard = ({
   lastName,
   title,
   skills,
-  avatar
+  avatar,
+  experience,
+  workplace,
+  college,
+  age,
+  jobTitle
 }) => {
   const theme = useMantineTheme()
   const { classes } = useStyles()
+  const { user } = useUserStore()
+
   return (
     <Stack className={classes.wrapper} spacing={24}>
       <Flex justify="space-between">
@@ -42,6 +50,9 @@ const UserProfileCard = ({
           lastName={lastName}
           title={title}
           image={avatar}
+          avatarSize={64}
+          titleSize="xl"
+          subTitleSize="md"
         />
         <Badge
           className={classes.badge}
@@ -54,6 +65,36 @@ const UserProfileCard = ({
         </Badge>
       </Flex>
       <Stack>
+        {user.email && (
+          <>
+            <Text>Email:</Text>
+            <Flex gap={10} wrap="wrap">
+              <Badge className={classes.badge} size="md">
+                {user.email}
+              </Badge>
+            </Flex>
+          </>
+        )}
+        {college !== '' && (
+          <>
+            <Text>College:</Text>
+            <Flex gap={10} wrap="wrap">
+              <Badge className={classes.badge} size="md">
+                {college}
+              </Badge>
+            </Flex>
+          </>
+        )}
+        {workplace !== '' && (
+          <>
+            <Text>Workplace:</Text>
+            <Flex gap={10} wrap="wrap">
+              <Badge className={classes.badge} size="md">
+                {workplace}
+              </Badge>
+            </Flex>
+          </>
+        )}
         <Text>Interests:</Text>
         <Flex gap={10} wrap="wrap">
           {skills.map((skill) => (
