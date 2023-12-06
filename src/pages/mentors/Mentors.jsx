@@ -39,6 +39,7 @@ const Mentors = () => {
               <ProfileCard
                 key={mentor.id}
                 id={mentor.id}
+                image={mentor.image}
                 name={mentor.first_name + ' ' + mentor.last_name}
                 experience={mentor.experience}
                 jobTitle={mentor.job_title}

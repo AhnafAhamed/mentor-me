@@ -31,7 +31,7 @@ const Navbar = ({ hidden }) => {
 
   const navItems = [
     {
-      link: '/',
+      link: '/home',
       icon: <IconHome />,
       text: 'Home'
     },
@@ -62,6 +62,8 @@ const Navbar = ({ hidden }) => {
       text: 'Resources'
     }
   ]
+
+  const isActiveLink = (link) => window.location.pathname.includes(link)
   return (
     <MantineNavbar
       hidden={hidden}
@@ -92,7 +94,7 @@ const Navbar = ({ hidden }) => {
                 <NavItem
                   icon={item.icon}
                   text={item.text}
-                  isActive={useMatch(item.link)}
+                  isActive={isActiveLink(item.link)}
                 />
               </Link>
             )
