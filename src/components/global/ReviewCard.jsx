@@ -22,7 +22,7 @@ const ReviewCard = ({
 }) => {
   const { classes } = useStyles()
   return (
-    <Stack className={classes.card} maw={420}>
+    <Stack className={classes.card}>
       <UserInfoCard
         image={image}
         firstName={firstName}

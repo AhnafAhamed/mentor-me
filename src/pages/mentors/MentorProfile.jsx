@@ -369,7 +369,7 @@ const MentorProfile = () => {
 
         <Tabs.Panel value="review">
           <Center spacing={32} mt={48}>
-            <Stack>
+            <Stack maw={420}>
               {mentorReviews ? (
                 mentorReviews.map((review) => (
                   <ReviewCard
