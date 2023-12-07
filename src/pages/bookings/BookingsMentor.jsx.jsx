@@ -278,13 +278,11 @@ const BookingsMentor = () => {
                 {completedBookings.map((booking) => {
                   return (
                     <UpcomingMeetingCard
-                      key={booking.id} // Don't forget to add a unique key for each mapped element
+                      key={booking.id}
                       firstName={booking.Mentee.first_name}
                       lastName={booking.Mentee.last_name}
                       title={booking.Mentee.college}
                       time={booking.meeting_time}
-                      confirmClick={() => openConfirmPopup(booking.id)}
-                      showButtons
                     />
                   )
                 })}
