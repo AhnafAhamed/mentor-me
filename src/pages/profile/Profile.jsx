@@ -31,6 +31,7 @@ import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import { notifications } from '@mantine/notifications'
 import { Link } from 'react-router-dom'
 import { IconLogout, IconRotate } from '@tabler/icons-react'
+import AccountDetails from '../../components/profile/AccountDetails'
 
 const useStyles = createStyles((theme) => ({
   dropZone: {
@@ -173,8 +174,8 @@ const Profile = () => {
   }, [])
 
   useEffect(() => {
-    console.log(form.values)
-  }, [form.values])
+    console.log(user)
+  }, [user])
   return (
     <DashboardLayout title="Profile">
       <Container maw={720} mx="auto" p={0}>
@@ -194,18 +195,10 @@ const Profile = () => {
           college={form.values.college}
           age={form.values.age}
         />
-        <Flex mt={24} justify="space-between">
-          <Link to="/forgot-password">
-            <Button leftIcon={<IconRotate />} color="yellow">
-              Reset Password
-            </Button>
-          </Link>
-          <Link to="/logout">
-            <Button leftIcon={<IconLogout />} color="red">
-              Logout
-            </Button>
-          </Link>
-        </Flex>
+
+        {user?.user_metadata.role === 'mentor' && (
+          <AccountDetails user={user} />
+        )}
       </Container>
       <Popup title="Edit Profile" isOpen={opened} isClosed={close}>
         <form onSubmit={submitForm}>

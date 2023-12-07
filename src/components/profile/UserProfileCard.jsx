@@ -1,5 +1,6 @@
 import {
   Badge,
+  Button,
   Flex,
   Stack,
   Text,
@@ -10,6 +11,8 @@ import UserInfoCard from '../global/UserInfoCard'
 import EditButton from '../global/EditButton'
 import IconEdit from '../icons/IconEdit'
 import useUserStore from '../../store/userStore'
+import { Link } from 'react-router-dom'
+import { IconLogout, IconRotate } from '@tabler/icons-react'
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -114,6 +117,18 @@ const UserProfileCard = ({
           ))}
         </Flex>
       </Stack>
+      <Flex mt={24} justify="space-between">
+        <Link to="/forgot-password">
+          <Button leftIcon={<IconRotate />} color="yellow">
+            Reset Password
+          </Button>
+        </Link>
+        <Link to="/logout">
+          <Button leftIcon={<IconLogout />} color="red">
+            Logout
+          </Button>
+        </Link>
+      </Flex>
     </Stack>
   )
 }
