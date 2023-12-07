@@ -103,7 +103,9 @@ const BookingsMentee = () => {
           ) : (
             <CustomLoader />
           )}
-          {pendingBookings?.length === 0 && <Text>No pending bookings</Text>}
+          {pendingBookings?.length === 0 && (
+            <Text ta="center">No pending bookings</Text>
+          )}
         </Tabs.Panel>
 
         <Tabs.Panel value="second">
