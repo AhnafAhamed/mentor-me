@@ -49,6 +49,7 @@ const Mentors = () => {
                 name={mentor.first_name + ' ' + mentor.last_name}
                 experience={mentor.experience}
                 jobTitle={mentor.job_title}
+                company={mentor.workplace}
                 rating={Math.floor(Math.random() * 5) + 1}
                 userId={mentor.user_uid}
                 fee={mentor.fee}
