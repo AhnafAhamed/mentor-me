@@ -27,7 +27,6 @@ import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import useMentorBooking from '../../hooks/useMentorBooking'
 import { updateBooking } from '../../services/Booking'
 import CustomLoader from '../../components/global/CustomLoader'
-import useReview from '../../hooks/useReview'
 
 const BookingsMentor = () => {
   const [opened, { open, close }] = useDisclosure(false)
@@ -57,8 +56,6 @@ const BookingsMentor = () => {
     getNewConfirmedBookings
   } = useMentorBooking()
 
-  const { mentorReviews } = useReview(user.id)
-
   const form = useForm({
     validateInputOnChange: true,
     initialValues: {
@@ -72,9 +69,30 @@ const BookingsMentor = () => {
 
     validate: {
       weekDayEnd: (value, values) =>
-        value < values.weekDayStart ? null : 'Invalid Time'
+        parseInt(value) > parseInt(values.weekDayStart) ? null : 'Invalid Time',
+      weekDayStart: (value, values) =>
+        parseInt(value) < parseInt(values.weekDayEnd) ? null : 'Invalid Time',
+      weekEndEnd: (value, values) =>
+        parseInt(value) > parseInt(values.weekEndStart) ? null : 'Invalid Time',
+      weekEndStart: (value, values) =>
+        parseInt(value) < parseInt(values.weekEndEnd) ? null : 'Invalid Time'
     }
   })
+
+  const meetingLinkForm = useForm({
+    validateInputOnChange: true,
+    initialValues: {
+      meetingLink: ''
+    },
+    validate: {
+      meetingLink: (value) =>
+        value.includes('https://') ? null : 'Invalid Link'
+    }
+  })
+
+  useEffect(() => {
+    console.log(form.values)
+  }, [form.values])
 
   useEffect(() => {
     if (updateBookingData) {
@@ -85,6 +103,10 @@ const BookingsMentor = () => {
       }, 2000)
     }
   }, [updateBookingData])
+
+  useEffect(() => {
+    form.setValues(user?.availability)
+  }, [])
 
   const confirmBooking = async () => {
     await updateBookingService(selectedBooking, 'confirmed', link)
@@ -101,15 +123,16 @@ const BookingsMentor = () => {
     await updateAvailabilityService(user.user_uid, {
       availability: form.values
     })
+  }
 
+  useEffect(() => {
     if (updatedMentorData) {
       notifications.show({
         title: 'Your Availability Updated Successfully',
         color: 'green'
       })
-      console.log({ result })
     }
-  }
+  }, [updatedMentorData])
   return (
     <DashboardLayout title="Bookings">
       <Container size="lg">
@@ -122,28 +145,20 @@ const BookingsMentor = () => {
           </Tabs.List>
           <Tabs.Panel value="upcoming">
             {confirmedBookings ? (
-              <SimpleGrid
-                cols={4}
-                mt={48}
-                breakpoints={[
-                  { maxWidth: 'xl', cols: 3, spacing: 'md' },
-                  { maxWidth: 'md', cols: 3, spacing: 'sm' },
-                  { maxWidth: 'sm', cols: 2, spacing: 'xs' },
-                  { maxWidth: 'xs', cols: 1, spacing: 'xs' }
-                ]}
-              >
+              <Flex mt={48}>
                 {confirmedBookings.map((booking) => {
                   return (
                     <UpcomingMeetingCard
-                      key={booking.id} // Don't forget to add a unique key for each mapped element
+                      key={booking.id}
                       firstName={booking.Mentee.first_name}
                       lastName={booking.Mentee.last_name}
                       title={booking.Mentee.college}
                       time={booking.meeting_time}
+                      meetingLink={booking.meeting_link}
                     />
                   )
                 })}
-              </SimpleGrid>
+              </Flex>
             ) : (
               <CustomLoader />
             )}
@@ -153,16 +168,7 @@ const BookingsMentor = () => {
           </Tabs.Panel>
           <Tabs.Panel value="pending">
             {pendingBookings ? (
-              <SimpleGrid
-                cols={4}
-                mt={48}
-                breakpoints={[
-                  { maxWidth: 'xl', cols: 3, spacing: 'md' },
-                  { maxWidth: 'md', cols: 3, spacing: 'sm' },
-                  { maxWidth: 'sm', cols: 2, spacing: 'xs' },
-                  { maxWidth: 'xs', cols: 1, spacing: 'xs' }
-                ]}
-              >
+              <Flex mt={48}>
                 {pendingBookings.map((booking) => {
                   return (
                     <UpcomingMeetingCard
@@ -176,7 +182,7 @@ const BookingsMentor = () => {
                     />
                   )
                 })}
-              </SimpleGrid>
+              </Flex>
             ) : (
               <CustomLoader />
             )}
@@ -265,16 +271,7 @@ const BookingsMentor = () => {
           </Tabs.Panel>
           <Tabs.Panel value="past">
             {completedBookings ? (
-              <SimpleGrid
-                cols={4}
-                mt={48}
-                breakpoints={[
-                  { maxWidth: 'xl', cols: 3, spacing: 'md' },
-                  { maxWidth: 'md', cols: 3, spacing: 'sm' },
-                  { maxWidth: 'sm', cols: 2, spacing: 'xs' },
-                  { maxWidth: 'xs', cols: 1, spacing: 'xs' }
-                ]}
-              >
+              <Flex mt={48}>
                 {completedBookings.map((booking) => {
                   return (
                     <UpcomingMeetingCard
@@ -286,7 +283,7 @@ const BookingsMentor = () => {
                     />
                   )
                 })}
-              </SimpleGrid>
+              </Flex>
             ) : (
               <CustomLoader />
             )}
@@ -303,17 +300,20 @@ const BookingsMentor = () => {
       >
         {!isBookingConfirmed ? (
           <Stack>
-            <TextInput
-              placeholder="Meeting link"
-              label="Send Meeting link"
-              value={link}
-              onChange={(event) => setLink(event.currentTarget.value)}
-            />
-            <PrimaryButton
-              text="Send Meeting Link"
-              onClick={confirmBooking}
-              loading={updateBookingLoading}
-            />
+            <form onSubmit={confirmBooking}>
+              <TextInput
+                placeholder="Meeting link"
+                label="Send Meeting link"
+                mb={16}
+                {...meetingLinkForm.getInputProps('meetingLink')}
+              />
+              <PrimaryButton
+                text="Send Meeting Link"
+                onClick={confirmBooking}
+                disabled={!meetingLinkForm.isValid()}
+                loading={updateBookingLoading}
+              />
+            </form>
           </Stack>
         ) : (
           <Stack align="center">
