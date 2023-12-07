@@ -31,7 +31,13 @@ const Mentors = () => {
         {mentors ? (
           mentors
             .filter((mentor) =>
-              (mentor.first_name + ' ' + mentor.last_name)
+              (
+                mentor.first_name +
+                ' ' +
+                mentor.last_name +
+                ' ' +
+                mentor.job_title
+              )
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase())
             )
@@ -45,6 +51,7 @@ const Mentors = () => {
                 jobTitle={mentor.job_title}
                 rating={Math.floor(Math.random() * 5) + 1}
                 userId={mentor.user_uid}
+                fee={mentor.fee}
               />
             ))
         ) : (
