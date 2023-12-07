@@ -57,7 +57,7 @@ const HomeMentor = () => {
       <Flex gap={35} wrap="wrap" mb={48}>
         <StatCard title="Total Revenue" icon="💵" stat={user?.revenue} />
         <StatCard
-          title="Total Bookings"
+          title="Completed Bookings"
           stat={completedBookings?.length}
           icon="🎟️"
           isCurrency={false}

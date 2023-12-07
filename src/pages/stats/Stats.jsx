@@ -4,8 +4,9 @@ import useUserStore from '../../store/userStore'
 import useReview from '../../hooks/useReview'
 import ReviewCard from '../../components/global/ReviewCard'
 import { Carousel } from '@mantine/carousel'
-import { Title, createStyles } from '@mantine/core'
+import { Flex, Title, createStyles } from '@mantine/core'
 import StatCard from '../../components/dashboard/StatCard'
+import useMentorBooking from '../../hooks/useMentorBooking'
 
 const useStyles = createStyles((theme) => ({
   emptyCard: {
@@ -19,6 +20,13 @@ const useStyles = createStyles((theme) => ({
 const Stats = () => {
   const { user } = useUserStore()
   const { mentorReviews } = useReview(user?.id)
+  const {
+    confirmedBookings,
+    pendingBookings,
+    completedBookings,
+    getNewPendingBookings,
+    getNewConfirmedBookings
+  } = useMentorBooking()
 
   const { classes } = useStyles()
 
@@ -70,6 +78,31 @@ const Stats = () => {
           stat={Math.floor(Math.random() * 91) + 10}
           isCurrency={false}
         />
+      </>
+      <>
+        <Title size="xl" mb={24} mt={24}>
+          Bookings
+        </Title>
+        <Flex gap={12}>
+          <StatCard
+            title="Pending Bookings"
+            icon="⚠️"
+            stat={pendingBookings?.length}
+            isCurrency={false}
+          />
+          <StatCard
+            title="Confirmed Bookings"
+            icon="🗓️"
+            stat={confirmedBookings?.length}
+            isCurrency={false}
+          />
+          <StatCard
+            title="Completed Bookings"
+            icon="✅"
+            stat={completedBookings?.length}
+            isCurrency={false}
+          />
+        </Flex>
       </>
     </DashboardLayout>
   )
