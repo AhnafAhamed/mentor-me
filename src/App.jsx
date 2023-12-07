@@ -1,6 +1,6 @@
 import './App.css'
 import SignUp from './pages/auth/SignUp'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import SignIn from './pages/auth/SignIn'
 import PrivatRoute from './navigation/PrivateRoute'
 import HomeMentee from './pages/home/HomeMentee'
@@ -21,9 +21,17 @@ import ResetPassword from './pages/auth/ResetPassword.jsx'
 import Stats from './pages/stats/Stats.jsx'
 import MessagesMentee from './pages/messages/MessagesMentee.jsx'
 import MessagesMentor from './pages/messages/MessagesMentor.jsx'
+import { useEffect } from 'react'
 
 function App() {
   const { user } = useUserStore()
+  const navigate = useNavigate()
+
+  const NavigateToHome = () => {
+    useEffect(() => {
+      navigate('/home')
+    }, [])
+  }
 
   return (
     <div>
@@ -33,6 +41,7 @@ function App() {
         <Route path="/logout" element={<LogOut />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/" element={<NavigateToHome />} />
         <Route
           path="/home"
           element={
