@@ -4,7 +4,9 @@ import {
   MediaQuery,
   SimpleGrid,
   Stack,
-  useMantineTheme
+  useMantineTheme,
+  Text,
+  Flex
 } from '@mantine/core'
 import Logo from '../branding/Logo'
 import { useMediaQuery } from '@mantine/hooks'
@@ -19,14 +21,17 @@ const AuthLayout = ({ image, children }) => {
       </MediaQuery>
 
       <Stack mt={40}>
-        <Box pl={{ base: '20px', md: '0' }}>
+        <Flex pl={{ base: '20px', md: '0' }} align="center">
           <Logo
             iconSize={48}
             textSize="2xl"
             textColor={theme.colors.darkBlack}
             textWeight={600}
           />
-        </Box>
+          <Text size="lg" ml={12} weight={700}>
+            Mentor Me
+          </Text>
+        </Flex>
         {children}
       </Stack>
     </SimpleGrid>
