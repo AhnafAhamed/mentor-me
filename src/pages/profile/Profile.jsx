@@ -9,7 +9,10 @@ import {
   TextInput,
   Text,
   Image,
-  createStyles
+  createStyles,
+  Flex,
+  Button,
+  useMantineTheme
 } from '@mantine/core'
 import DashboardLayout from '../../components/layouts/DashboardLayout'
 import { useForm } from '@mantine/form'
@@ -26,6 +29,8 @@ import IconEdit from '../../components/icons/IconEdit'
 import supabase from '../../config/SupabaseClient'
 import useSuapbaseWithCallback from '../../hooks/useSupabaseWithCallback'
 import { notifications } from '@mantine/notifications'
+import { Link } from 'react-router-dom'
+import { IconLogout, IconRotate } from '@tabler/icons-react'
 
 const useStyles = createStyles((theme) => ({
   dropZone: {
@@ -55,6 +60,7 @@ const Profile = () => {
   const { user } = useUserStore()
   const setUser = useUserStore((state) => state.setUser)
   const [opened, { open, close }] = useDisclosure(false)
+  const theme = useMantineTheme()
   const role = user.user_metadata.role
   const {
     callService: updateProfileService,
@@ -186,7 +192,20 @@ const Profile = () => {
           experience={form.values.experience}
           workplace={form.values.workplace}
           college={form.values.college}
+          age={form.values.age}
         />
+        <Flex mt={24} justify="space-between">
+          <Link to="/forgot-password">
+            <Button leftIcon={<IconRotate />} color="yellow">
+              Reset Password
+            </Button>
+          </Link>
+          <Link to="/logout">
+            <Button leftIcon={<IconLogout />} color="red">
+              Logout
+            </Button>
+          </Link>
+        </Flex>
       </Container>
       <Popup title="Edit Profile" isOpen={opened} isClosed={close}>
         <form onSubmit={submitForm}>

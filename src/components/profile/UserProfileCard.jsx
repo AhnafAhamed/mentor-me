@@ -75,6 +75,16 @@ const UserProfileCard = ({
             </Flex>
           </>
         )}
+        {age && (
+          <>
+            <Text>Age:</Text>
+            <Flex gap={10} wrap="wrap">
+              <Badge className={classes.badge} size="md">
+                {age}
+              </Badge>
+            </Flex>
+          </>
+        )}
         {college !== '' && (
           <>
             <Text>College:</Text>

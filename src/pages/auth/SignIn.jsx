@@ -75,13 +75,13 @@ const SigIn = () => {
         userData = data?.find((mentor) => mentor.user_uid === result.user.id)
       }
       setUser({ ...result.user, ...userData })
-      navigate('/')
+      navigate('/home')
     }
   }
 
   useEffect(() => {
     if (user) {
-      navigate('/')
+      navigate('/home')
     }
   }, [])
   return (
