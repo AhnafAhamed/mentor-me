@@ -104,6 +104,7 @@ const Navbar = ({ hidden }) => {
         <ProfileInfoCard
           firstName={user?.first_name}
           lastName={user?.last_name}
+          image={user?.image}
         />
       </Stack>
     </MantineNavbar>
