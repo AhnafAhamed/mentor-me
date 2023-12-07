@@ -65,6 +65,7 @@ const Chat = ({ channel, isMentorView }) => {
   } = useSuapbaseWithCallback(addMessage)
 
   useEffect(() => {
+    console.log('channel', channel)
     setRecipient(isMentorView ? channel.Mentee : channel.Mentor)
   }, [channel])
 

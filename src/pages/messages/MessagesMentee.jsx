@@ -21,8 +21,11 @@ const MessagesMentee = () => {
   const [channelId, setChannelId] = useState(null)
   const [activeChannel, setActiveChannel] = useState(null)
 
-  const { data: channelsWithMentee, loading: channelsWithMenteeLoading } =
-    useSupabase(getChannelsByMenteeId.bind(this, params?.id))
+  const {
+    data: channelsWithMentee,
+    loading: channelsWithMenteeLoading,
+    getData: getNewChannelsWithMentee
+  } = useSupabase(getChannelsByMenteeId.bind(this, params?.id))
 
   const { data: channelsWithMentor, loading: channelsWithMentorLoading } =
     useSupabase(getChannelsByMentorId.bind(this, state?.mentor))
@@ -41,13 +44,11 @@ const MessagesMentee = () => {
 
       createChannel()
     }
-  }, [params, state, channelsWithMentor])
+  }, [channelsWithMentor])
 
   useEffect(() => {
     if (createNewChannelData) {
-      setShowChat(true)
-      setChannelId(createNewChannelData[0].id)
-      setActiveChannel(createNewChannelData[0])
+      getNewChannelsWithMentee()
     }
   }, [createNewChannelData])
 
