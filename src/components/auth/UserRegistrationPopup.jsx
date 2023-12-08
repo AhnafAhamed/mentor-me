@@ -222,12 +222,40 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
                   placeholder="Interests"
                   data={[
                     {
-                      value: 'Full Stack Development',
+                      value: 'Full Stgack Development',
                       label: 'Full Stack Development'
                     },
                     {
                       value: 'Frontend Development',
                       label: 'Frontend Development'
+                    },
+                    {
+                      value: 'Backend Development',
+                      label: 'Backend Development'
+                    },
+                    {
+                      value: 'Data Science',
+                      label: 'Data Science'
+                    },
+                    {
+                      value: 'Machine Learning',
+                      label: 'Machine Learning'
+                    },
+                    {
+                      value: 'Artificial Intelligence',
+                      label: 'Artificial Intelligence'
+                    },
+                    {
+                      value: 'Product Management',
+                      label: 'Product Management'
+                    },
+                    {
+                      value: 'Business Intelligence',
+                      label: 'Business Intelligence'
+                    },
+                    {
+                      value: 'Design Systems',
+                      label: 'Design Systems'
                     }
                   ]}
                   {...form.getInputProps('interests')}
@@ -247,6 +275,30 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
                   placeholder="Expertise"
                   data={[
                     {
+                      value: 'Full Stgack Development',
+                      label: 'Full Stack Development'
+                    },
+                    {
+                      value: 'Frontend Development',
+                      label: 'Frontend Development'
+                    },
+                    {
+                      value: 'Backend Development',
+                      label: 'Backend Development'
+                    },
+                    {
+                      value: 'Data Science',
+                      label: 'Data Science'
+                    },
+                    {
+                      value: 'Machine Learning',
+                      label: 'Machine Learning'
+                    },
+                    {
+                      value: 'Artificial Intelligence',
+                      label: 'Artificial Intelligence'
+                    },
+                    {
                       value: 'Product Management',
                       label: 'Product Management'
                     },
@@ -254,7 +306,10 @@ const UserRegistrationPopup = ({ title, isOpen, isClosed, role }) => {
                       value: 'Business Intelligence',
                       label: 'Business Intelligence'
                     },
-                    { value: 'Design Systems', label: 'Design Systems' }
+                    {
+                      value: 'Design Systems',
+                      label: 'Design Systems'
+                    }
                   ]}
                   {...form.getInputProps('expertise')}
                 />
